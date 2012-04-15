@@ -78,6 +78,9 @@
     <ClInclude Include="..\src\JsonCpp\json_batchallocator.h">
       <Filter>源文件\src\JsonCpp</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -98,5 +101,10 @@
     <ClCompile Include="..\src\JsonCpp\json_writer.cpp">
       <Filter>源文件\src\JsonCpp</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="YJsonCpp.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
