@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestMFC", "TestMFC\TestMFC.
 		{C68BCCEF-A444-4F2D-A21C-8C4F26D9170F} = {C68BCCEF-A444-4F2D-A21C-8C4F26D9170F}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YSerialPort", "YSerialPort\YSerialPort.vcxproj", "{31A9B353-7C20-45CC-A90F-85CD286CF7FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +24,10 @@ Global
 		{B5681452-7572-4DF0-8ABF-20B1ABA011EE}.Debug|Win32.Build.0 = Debug|Win32
 		{B5681452-7572-4DF0-8ABF-20B1ABA011EE}.Release|Win32.ActiveCfg = Release|Win32
 		{B5681452-7572-4DF0-8ABF-20B1ABA011EE}.Release|Win32.Build.0 = Release|Win32
+		{31A9B353-7C20-45CC-A90F-85CD286CF7FD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{31A9B353-7C20-45CC-A90F-85CD286CF7FD}.Debug|Win32.Build.0 = Debug|Win32
+		{31A9B353-7C20-45CC-A90F-85CD286CF7FD}.Release|Win32.ActiveCfg = Release|Win32
+		{31A9B353-7C20-45CC-A90F-85CD286CF7FD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
