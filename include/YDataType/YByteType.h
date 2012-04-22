@@ -2,15 +2,13 @@
 #define V_BYTE_TYPE
 // 此类是从 YByteType.dll 导出的
 
-#ifdef YDATATYPE_EXPORTS
-#	define YBYTETYPE_API __declspec(dllexport)
-#else
-#	define YBYTETYPE_API __declspec(dllimport)
-#endif
+
 
 #ifndef YBYTE
 #define YBYTE unsigned char /*!< 自定义二进制数据类型 */
 #endif
+
+#include "YDataTypeConfig.h"
 
 #include <stdio.h>
 //#include <vector>
