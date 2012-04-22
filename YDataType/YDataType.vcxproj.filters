@@ -42,6 +42,9 @@
     <ClInclude Include="..\include\YDataType\YDataTypeConfig.h">
       <Filter>头文件\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\YDataType\YData.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -54,6 +57,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\src\YDataType\YByteType.cpp">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\YDataType\YData.cpp">
       <Filter>源文件\src</Filter>
     </ClCompile>
   </ItemGroup>

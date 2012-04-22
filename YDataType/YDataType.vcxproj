@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\YDataType\YByteType.h" />
+    <ClInclude Include="..\include\YDataType\YData.h" />
     <ClInclude Include="..\include\YDataType\YDataTypeConfig.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -84,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\YDataType\YByteType.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\src\YDataType\YData.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
