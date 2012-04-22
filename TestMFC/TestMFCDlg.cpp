@@ -8,6 +8,7 @@
 #include "afxdialogex.h"
 
 #include "../include/JsonCpp/json.h"
+#include "../include/YDataType/YData.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -94,8 +95,9 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 void CTestMFCDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	Json::Value v;
-	v["tset"] = 3;
-	AfxMessageBox(CString(v.toStyledString().c_str()));
-	CDialogEx::OnOK();
+	YLR::YData d;
+	d.setFrom(234);
+	CString str(d.toString().c_str());
+	//str.Format(_T("%f"),d.toFloat());
+	AfxMessageBox(str);
 }

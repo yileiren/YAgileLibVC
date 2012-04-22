@@ -130,13 +130,43 @@ namespace YLR
 
 		/*!
 		 * \brief
-		 * 转换成int类型，使用前用getDataType检查数据类型。
+		 * 转换成int类型，方法根据数据类型自动转换，注意判断原数据类型与目的类型是
+		 * 否兼容，特别注意NULL类型。
 		 * 作者：董帅 创建时间：2012-4-22 16:50:30
 		 *
 		 * \return 转换后的数据。
 		 */
 		int toInt() const;
 
+		/*!
+		 * \brief
+		 * 转换成double类型，方法根据数据类型自动转换，注意判断原数据类型与目的类型是
+		 * 否兼容，特别注意NULL类型。
+		 * 作者：董帅 创建时间：2012-4-22 21:09:15
+		 *
+		 * \return 转换后的数据。
+		 */
+		double toDouble() const;
+
+		/*!
+		 * \brief
+		 * 转换成float类型，方法根据数据类型自动转换，注意判断原数据类型与目的类型是
+		 * 否兼容，特别注意NULL类型。
+		 * 作者：董帅 创建时间：2012-4-22 21:13:37
+		 *
+		 * \return 转换后的数据。
+		 */
+		float toFloat() const;
+
+		/*!
+		 * \brief
+		 * 转换成string类型，方法根据数据类型自动转换，注意判断原数据类型与目的类型是
+		 * 否兼容，特别注意NULL类型。
+		 * 作者：董帅 创建时间：2012-4-22 21:18:00
+		 *
+		 * \return 转换后的数据。
+		 */
+		std::string toString() const;
 	protected:
 		YData::DatyType _type;
 	};
