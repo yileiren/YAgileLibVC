@@ -96,8 +96,8 @@ void CTestMFCDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	YLR::YData d;
-	d.setFrom(234);
-	CString str(d.toString().c_str());
+	d.setFrom("234");
+	CString str(d.toString()->c_str());
 	//str.Format(_T("%f"),d.toFloat());
 	AfxMessageBox(str);
 }

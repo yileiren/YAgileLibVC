@@ -78,6 +78,13 @@ namespace YLR
 
 		/*!
 		 * \brief
+		 * 析构函数，释放空间。
+		 * 作者：董帅 创建时间：2012-4-24 20:42:40
+		 */
+		~YData();
+
+		/*!
+		 * \brief
 		 * 获取数据类型。
 		 * 作者：董帅 创建时间：2012-4-22 17:23:45
 		 *
@@ -160,15 +167,17 @@ namespace YLR
 
 		/*!
 		 * \brief
-		 * 转换成string类型，方法根据数据类型自动转换，注意判断原数据类型与目的类型是
+		 * 转换成string类型指针，对象销毁时空间释放，方法根据数据类型自动转换，注意判断原数据类型与目的类型是
 		 * 否兼容，特别注意NULL类型。
 		 * 作者：董帅 创建时间：2012-4-22 21:18:00
 		 *
 		 * \return 转换后的数据。
 		 */
-		std::string toString() const;
+		std::string * toString();
 	protected:
-		YData::DatyType _type;
+		YData::DatyType _type; /*!< 数据类型 */
+
+		std::string * str; /*!< 返回的字符串 */
 	};
 };
 

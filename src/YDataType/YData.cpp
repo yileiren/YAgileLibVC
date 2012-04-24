@@ -6,11 +6,13 @@
 using namespace YLR;
 
 YData::YData() :
-	_type(YData::YNull)
+	_type(YData::YNull),
+	str(NULL)
 {
 }
 
-YData::YData(const int &d)
+YData::YData(const int &d) :
+	str(NULL)
 {
 	//ÉèÖÃ´æ´¢¿Õ¼ä
 	this->setSize(sizeof(d));
@@ -23,7 +25,8 @@ YData::YData(const int &d)
 	this->_type = YData::YInt;
 }
 
-YData::YData(const double &d)
+YData::YData(const double &d) :
+	str(NULL)
 {
 	//ÉèÖÃ´æ´¢¿Õ¼ä
 	this->setSize(sizeof(d));
@@ -36,7 +39,8 @@ YData::YData(const double &d)
 	this->_type = YData::YDouble;
 }
 
-YData::YData(const float &d)
+YData::YData(const float &d) :
+	str(NULL)
 {
 	//ÉèÖÃ´æ´¢¿Õ¼ä
 	this->setSize(sizeof(d));
@@ -49,7 +53,8 @@ YData::YData(const float &d)
 	this->_type = YData::YFloat;
 }
 
-YData::YData(const std::string &d)
+YData::YData(const std::string &d) :
+	str(NULL)
 {
 	//ÉèÖÃ´æ´¢¿Õ¼ä
 	this->setSize(sizeof(d));
@@ -60,6 +65,14 @@ YData::YData(const std::string &d)
 	this->setData(buf,this->getSize());
 	delete[] buf;
 	this->_type = YData::YString;
+}
+
+YData::~YData()
+{
+	if(this->str != NULL)
+	{
+		delete this->str;
+	}
 }
 
 YData::DatyType YData::getDataType() const
@@ -114,12 +127,27 @@ void YData::setFrom(const float &d)
 
 void YData::setFrom(const std::string &d)
 {
+	//ÅÐ¶ÏC´©³¤¶È
+	int i = 0;
+	const char * p = d.c_str();
+	while(*p != NULL)
+	{
+		i++;
+		p++;
+	}
 	//ÉèÖÃ´æ´¢¿Õ¼ä
-	this->setSize(sizeof(d));
+	this->setSize(i + 1);
 
 	//¸´ÖÆÊý¾Ý
 	YBYTE * buf = new YBYTE[this->getSize()];
-	memcpy(buf,&d,this->getSize());
+	i = 0;
+	p = d.c_str();
+	while(*(p + i) != NULL)
+	{
+		buf[i] = p[i];
+		i++;
+	}
+	buf[i] = '\0';
 	this->setData(buf,this->getSize());
 	delete[] buf;
 	this->_type = YData::YString;
@@ -263,9 +291,13 @@ float YData::toFloat() const
 	return data;
 }
 
-std::string YData::toString() const
+std::string * YData::toString()
 {
-	std::string data = "";
+	if(this->str != NULL)
+	{
+		delete this->str;
+	}
+	this->str = new std::string();
 
 	switch(this->_type)
 	{
@@ -277,7 +309,7 @@ std::string YData::toString() const
 			memcpy(&d,buf,sizeof(int));
 			std::stringstream stream;
 			stream << d;
-			stream >> data;
+			stream >> *(this->str);
 			delete[] buf;
 			break;
 		}
@@ -289,7 +321,7 @@ std::string YData::toString() const
 			memcpy(&d,buf,sizeof(double));
 			std::stringstream stream;
 			stream << d;
-			stream >> data;
+			stream >> *(this->str);;
 			delete[] buf;
 			break;
 		}
@@ -301,7 +333,7 @@ std::string YData::toString() const
 			memcpy(&d,buf,sizeof(float));
 			std::stringstream stream;
 			stream << d;
-			stream >> data;
+			stream >> *(this->str);;
 			delete[] buf;
 			break;
 		}
@@ -309,10 +341,11 @@ std::string YData::toString() const
 		{
 			YBYTE * buf = new YBYTE[this->getSize()];
 			this->getData(buf,this->getSize());
-			data.assign((char *)buf);
+
+			*(this->str) = std::string((char *)buf);
 			delete[] buf;
 		}
 	}
 
-	return data;
+	return this->str;
 }
