@@ -67,6 +67,12 @@ YData::YData(const std::string &d) :
 	this->_type = YData::YString;
 }
 
+YData::YData(const YData &item) : YByteType(item)
+{
+	this->_type = item._type;
+	this->str = NULL;
+}
+
 YData::~YData()
 {
 	if(this->str != NULL)
@@ -348,4 +354,12 @@ std::string * YData::toString()
 	}
 
 	return this->str;
+}
+
+YData & YData::operator=(const YData &item)
+{
+	YByteType::operator=(item);
+	this->_type = item._type;
+	this->str = NULL;
+	return *this;
 }

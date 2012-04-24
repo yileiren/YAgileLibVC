@@ -78,6 +78,13 @@ namespace YLR
 
 		/*!
 		 * \brief
+		 * 拷贝构造函数。
+		 * 作者：董帅 创建时间：2012-4-24 21:57:04
+		 */
+		YData(const YData &item);
+
+		/*!
+		 * \brief
 		 * 析构函数，释放空间。
 		 * 作者：董帅 创建时间：2012-4-24 20:42:40
 		 */
@@ -174,6 +181,13 @@ namespace YLR
 		 * \return 转换后的数据。
 		 */
 		std::string * toString();
+
+		/*!
+		 * \brief
+		 * 负值操作符重载。
+		 * 作者：董帅 创建时间：2012-4-24 22:13:44
+		 */
+		YData & operator=(const YData &item);
 	protected:
 		YData::DatyType _type; /*!< 数据类型 */
 
