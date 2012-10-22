@@ -6,7 +6,7 @@
 using namespace YLR;
 
 YData::YData() :
-	_type(YData::YNull),
+	_type(YData::YInt),
 	str(NULL)
 {
 }
@@ -89,7 +89,18 @@ YData::DatyType YData::getDataType() const
 void YData::setNull()
 {
 	this->setSize();
-	this->_type = YData::YNull;
+}
+
+bool YData::isNull() const
+{
+	if(this->getSize() > 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void YData::setFrom(const int &d)

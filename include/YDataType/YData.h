@@ -26,7 +26,6 @@ namespace YLR
 		 */
 		enum DatyType
 		{
-			YNull,       /*!< NULL类型 */
 			YInt,         /*!< int类型 */
 			YDouble,      /*!< double类型 */
 			YFloat,       /*!< float类型 */
@@ -35,7 +34,7 @@ namespace YLR
 
 		/*!
 		 * \brief
-		 * 默认构造函数，数据初始化成NULL。
+		 * 默认构造函数，数据初始化成NULL，数据类型设置成YInt。
 		 * 作者：董帅 创建时间：2012-4-22 15:03:24
 		 */
 		YData();
@@ -105,6 +104,15 @@ namespace YLR
 		 * 作者：董帅 创建时间：2012-4-22 15:59:51
 		 */
 		void setNull();
+
+		/*!
+		 * \brief
+		 * 判断数据是否是NULL。
+		 * 作者：董帅 创建时间：2012-10-22 21:27:32
+		 *
+		 * \return 是NULL返回true，否则返回false。
+		 */
+		bool isNull() const;
 
 		/*!
 		 * \brief
