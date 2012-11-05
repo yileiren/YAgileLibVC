@@ -14,6 +14,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YSerialPort", "YSerialPort\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YDataType", "YDataType\YDataType.vcxproj", "{E618E23A-0E25-4CAF-AD87-19132ACCBC78}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YDataBase", "YDataBase\YDataBase.vcxproj", "{1742280D-89E8-451E-B617-E1F24FD42125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -36,6 +38,10 @@ Global
 		{E618E23A-0E25-4CAF-AD87-19132ACCBC78}.Debug|Win32.Build.0 = Debug|Win32
 		{E618E23A-0E25-4CAF-AD87-19132ACCBC78}.Release|Win32.ActiveCfg = Release|Win32
 		{E618E23A-0E25-4CAF-AD87-19132ACCBC78}.Release|Win32.Build.0 = Release|Win32
+		{1742280D-89E8-451E-B617-E1F24FD42125}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1742280D-89E8-451E-B617-E1F24FD42125}.Debug|Win32.Build.0 = Debug|Win32
+		{1742280D-89E8-451E-B617-E1F24FD42125}.Release|Win32.ActiveCfg = Release|Win32
+		{1742280D-89E8-451E-B617-E1F24FD42125}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
