@@ -24,7 +24,7 @@ namespace YLR
 		 * \brief
 		 * 自定义数据类型种类。
 		 */
-		enum DatyType
+		enum DataType
 		{
 			YInt,         /*!< int类型 */
 			YDouble,      /*!< double类型 */
@@ -96,7 +96,7 @@ namespace YLR
 		 *
 		 * \return 数据类型。
 		 */
-		YData::DatyType getDataType() const;
+		YData::DataType getDataType() const;
 
 		/*!
 		 * \brief
@@ -197,7 +197,7 @@ namespace YLR
 		 */
 		YData & operator=(const YData &item);
 	protected:
-		YData::DatyType _type; /*!< 数据类型 */
+		YData::DataType _type; /*!< 数据类型 */
 
 		std::string * str; /*!< 返回的字符串 */
 	};

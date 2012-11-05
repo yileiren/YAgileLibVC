@@ -81,7 +81,7 @@ YData::~YData()
 	}
 }
 
-YData::DatyType YData::getDataType() const
+YData::DataType YData::getDataType() const
 {
 	return this->_type;
 }

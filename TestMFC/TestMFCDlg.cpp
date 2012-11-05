@@ -9,6 +9,7 @@
 
 #include "../include/JsonCpp/json.h"
 #include "../include/YDataType/YData.h"
+#include "../include/YDataBase/YColumn.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -95,11 +96,13 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 void CTestMFCDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	YLR::YData d;
-	d.setFrom("234");
-	YLR::YData d1(d);
-	
-	CString str(d1.toString()->c_str());
-	//str.Format(_T("%f"),d.toFloat());
-	AfxMessageBox(str);
+	YLR::YColumn col;
+
+	col.setDataType(YLR::YData::YString);
+	col.setLogicalName("logical");
+	col.setPhysicaName("physica");
+
+	YLR::YColumn col1 = col;
+	AfxMessageBox(CString(col1.getLogicalName()->c_str()));
+	AfxMessageBox(CString(col1.getPhysicaName()->c_str()));
 }
