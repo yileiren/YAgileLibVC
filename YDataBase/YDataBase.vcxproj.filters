@@ -33,6 +33,9 @@
     <ClInclude Include="..\include\YDataBase\YColumn.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="YDataColumns.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

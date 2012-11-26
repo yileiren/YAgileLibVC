@@ -1,3 +1,6 @@
+#ifndef Y_COLUMN
+#define Y_COLUMN
+
 #include "../../YDataBase/YDataBase.h"
 #include "../YDataType/YData.h"
 
@@ -120,3 +123,4 @@ namespace YLR
 		YData::DataType _dataType; /*!<字段数据类型。 */
 	};
 }
+#endif 

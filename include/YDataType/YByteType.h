@@ -1,5 +1,5 @@
-#ifndef V_BYTE_TYPE
-#define V_BYTE_TYPE
+#ifndef Y_BYTE_TYPE
+#define Y_BYTE_TYPE
 // 此类是从 YByteType.dll 导出的
 
 
