@@ -24,34 +24,38 @@ bool YSerialPort::openSerialPort(void)
 	//LPCTSTR com;
 
 #ifdef UNICODE
-	WCHAR a[8];
+	WCHAR a[20];
 	memset(a,'\0',sizeof(a));
-	wsprintf(a,L"COM%d:",this->serialNum);
+	wsprintf(a,L"\\\\.\\COM%d",this->serialNum);
 	//com = a;
 #else
-	CHAR a[8];
+	CHAR a[20];
 	memset(a,'\0',sizeof(a));
-	sprintf(a,L"COM%d:",this->serialNum);
+	sprintf(a,L"\\\\.\\COM%d",this->serialNum);
 	//com = a;
 #endif
 
 	//打开串口
 	this->serialPort = CreateFile(a,GENERIC_READ | GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
-	if(this->serialPort == NULL)
+	if(this->serialPort == INVALID_HANDLE_VALUE )
 	{
 		return false;
 	}
+	DWORD D = GetLastError();
 
 	//设置串口
 	DCB  PortDCB;
 	PortDCB.DCBlength = sizeof(DCB);
 	GetCommState(this->serialPort,&PortDCB);
 	PortDCB.BaudRate = this->baudRate;
+	PortDCB.fBinary = true;
 	PortDCB.ByteSize = this->byteSize;
 	PortDCB.Parity = this->parity; 
 	PortDCB.StopBits = this->stopBits;  
 	if (!SetCommState(this->serialPort, &PortDCB))
 	{
+		
+	
 		return false;
 	}
 

@@ -11,6 +11,8 @@
 #include "../include/YDataType/YData.h"
 #include "../include/YDataBase/YColumn.h"
 
+#include "../include/YSerialPort/YSerialPort.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -96,13 +98,16 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 void CTestMFCDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	YLR::YColumn col;
+	YLR::YSerialPort port;
+	port.serialNum = 2;
+	bool b = port.openSerialPort();
+	if(b)
+	{
+		AfxMessageBox(_T("true"));
+	}
+	else
+	{
+		AfxMessageBox(_T("false"));
+	}
 
-	col.setDataType(YLR::YData::YString);
-	col.setLogicalName("logical");
-	col.setPhysicaName("physica");
-
-	YLR::YColumn col1 = col;
-	AfxMessageBox(CString(col1.getLogicalName()->c_str()));
-	AfxMessageBox(CString(col1.getPhysicaName()->c_str()));
 }
