@@ -52,7 +52,7 @@ void YDataRow::addColumn(const YColumn & column)
 void YDataRow::insertColumn(const int & index, const YColumn & column)
 {
 	//如果索引值不在范围内则不做任何操作。
-	if(index >= (int)this->_columns->size())
+	if(index < (int)this->_columns->size())
 	{
 		this->_columns->push_back(YColumn()); //在行末尾新增一个空列。
 		this->_datas->push_back(YData()); //在行末尾新增一个空数据。
@@ -69,7 +69,7 @@ void YDataRow::insertColumn(const int & index, const YColumn & column)
 void YDataRow::removeColumn(const int & index)
 {
 	//如果索引值不在范围内则不做任何操作。
-	if(index >= (int)this->_columns->size())
+	if(index < (int)this->_columns->size())
 	{
 		for(std::vector<YColumn>::size_type s = index;s < this->_columns->size() - 1;s++)
 		{
@@ -84,7 +84,7 @@ void YDataRow::removeColumn(const int & index)
 
 const YColumn * YDataRow::getColumn(const int & index)
 {
-	if(index >= (int)this->_columns->size())
+	if(index < (int)this->_columns->size())
 	{
 		return &this->_columns->at(index);
 	}
@@ -96,7 +96,7 @@ const YColumn * YDataRow::getColumn(const int & index)
 
 void YDataRow::setColumn(const int & index, const YColumn & column)
 {
-	if(index >= (int)this->_columns->size())
+	if(index < (int)this->_columns->size())
 	{
 		this->_columns->at(index) = column;
 	}
@@ -104,7 +104,7 @@ void YDataRow::setColumn(const int & index, const YColumn & column)
 
 const YData * YDataRow::getData(const int & index) const
 {
-	if(index >= (int)this->_columns->size())
+	if(index < (int)this->_columns->size())
 	{
 		return &this->_datas->at(index);
 	}
@@ -129,7 +129,7 @@ const YData * YDataRow::getData(const std::string & physicaName) const
 
 void YDataRow::setData(const int & index, const YData & data)
 {
-	if(index >= (int)this->_columns->size())
+	if(index < (int)this->_columns->size())
 	{
 		this->_datas->at(index) = data;
 	}
