@@ -82,7 +82,7 @@ void YDataRow::removeColumn(const int & index)
 	}
 }
 
-const YColumn * YDataRow::getColumn(const int & index)
+const YColumn * YDataRow::getColumn(const int & index) const
 {
 	if(index < (int)this->_columns->size())
 	{
@@ -100,6 +100,11 @@ void YDataRow::setColumn(const int & index, const YColumn & column)
 	{
 		this->_columns->at(index) = column;
 	}
+}
+
+int YDataRow::getColumnCount() const
+{
+	return (int)this->_columns->size();
 }
 
 const YData * YDataRow::getData(const int & index) const

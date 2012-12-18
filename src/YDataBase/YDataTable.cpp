@@ -92,7 +92,7 @@ void YDataTable::removeColumn(const int & index)
 	}
 }
 
-const YColumn * YDataTable::getColumn(const int & index)
+const YColumn * YDataTable::getColumn(const int & index) const
 {
 	if(index < (int)this->_columns->size())
 	{
@@ -110,6 +110,11 @@ void YDataTable::setColumn(const int & index, const YColumn & column)
 	{
 		this->_columns->at(index) = column;
 	}
+}
+
+int YDataTable::getColumnCount() const
+{
+	return (int)this->_columns->size();
 }
 
 void YDataTable::addRow(const YDataRow & row)
@@ -166,6 +171,11 @@ void YDataTable::setRow(const int & index, const YDataRow & row)
 	{
 		this->_rows->at(index) = row;
 	}
+}
+
+int YDataTable::getRowCount() const
+{
+	return (int)this->_rows->size();
 }
 
 const YData * YDataTable::getData(const int & rowIndex, const int & columnIndex) const

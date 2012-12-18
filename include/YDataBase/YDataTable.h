@@ -81,7 +81,7 @@ namespace YLR
 		 *
 		 * \return 返回数据列指针。
 		 */
-		virtual const YColumn * getColumn(const int & index);
+		virtual const YColumn * getColumn(const int & index) const;
 
 		/*!
 		 * \brief
@@ -92,6 +92,15 @@ namespace YLR
 		 * \param column 数据列。
 		 */
 		virtual void setColumn(const int & index, const YColumn & column);
+
+		/*!
+		 * \brief
+		 * 获取数据列总数。
+		 * 作者：董帅 创建时间：2012-12-18 17:28:10
+		 *
+		 * \return 列总数。
+		 */
+		virtual int getColumnCount() const;
 
 		/*!
 		 * \brief
@@ -140,6 +149,15 @@ namespace YLR
 		 * \param row 数据行。
 		 */
 		void setRow(const int & index, const YDataRow & row);
+
+		/*!
+		 * \brief
+		 * 获取数据行总数。
+		 * 作者：董帅 创建时间：2012-12-18 17:31:18
+		 *
+		 * \return 行总数。
+		 */
+		int getRowCount() const;
 
 		/*!
 		 * \brief

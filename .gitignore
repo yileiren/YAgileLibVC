@@ -23,6 +23,7 @@ Thumbs.db
 *.sbr
 *.sdf
 *.opensdf
+*.zargo~
 ipch/
 obj/
 [Rr]elease*/
