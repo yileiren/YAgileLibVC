@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\include">
+      <UniqueIdentifier>{9883fe41-b26b-4153-ad92-b9dfff1cdbd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\src">
+      <UniqueIdentifier>{8a1f3002-56f0-4f65-a762-385434ae3a2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -30,11 +36,14 @@
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\YDataBase\YColumn.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\include\YDataBase\YDataColumns.h">
+      <Filter>头文件\include</Filter>
     </ClInclude>
-    <ClInclude Include="YDataColumns.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\include\YDataBase\YColumn.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\YDataBase\YDataRow.h">
+      <Filter>头文件\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +57,10 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\src\YDataBase\YColumn.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\YDataBase\YDataRow.cpp">
+      <Filter>源文件\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
