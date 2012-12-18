@@ -4,22 +4,11 @@
 // 任何其他项目上不应定义此符号。这样，源文件中包含此文件的任何其他项目都会将
 // YDATABASE_API 函数视为是从 DLL 导入的，而此 DLL 则将用此宏定义的
 // 符号视为是被导出的。
-#ifndef Y_DATA_BASE
-#define Y_DATA_BASE
+#ifndef DLL_CONFIG
+#define DLL_CONFIG
 #ifdef YDATABASE_EXPORTS
 #define YDATABASE_API __declspec(dllexport)
 #else
 #define YDATABASE_API __declspec(dllimport)
 #endif
-
-// 此类是从 YDataBase.dll 导出的
-class YDATABASE_API CYDataBase {
-public:
-	CYDataBase(void);
-	// TODO: 在此添加您的方法。
-};
-
-extern YDATABASE_API int nYDataBase;
-
-YDATABASE_API int fnYDataBase(void);
 #endif

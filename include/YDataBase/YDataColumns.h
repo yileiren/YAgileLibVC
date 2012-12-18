@@ -1,7 +1,7 @@
 #ifndef Y_DATA_COLUMNS
 #define Y_DATA_COLUMNS
 
-#include "../../YDataBase/YDataBase.h"
+#include "../../YDataBase/DLL_Config.h"
 #include "YColumn.h"
 
 namespace YLR 

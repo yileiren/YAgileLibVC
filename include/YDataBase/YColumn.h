@@ -1,7 +1,7 @@
 #ifndef Y_COLUMN
 #define Y_COLUMN
 
-#include "../../YDataBase/YDataBase.h"
+#include "../../YDataBase/DLL_Config.h"
 #include "../YDataType/YData.h"
 
 #include <string>
