@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../../YDataBase/YDataBase.h"
+#include "../../YDataBase/DLL_Config.h"
 #include "YDataRow.h"
 
 namespace YLR
