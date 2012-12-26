@@ -308,7 +308,7 @@ float YData::toFloat() const
 	return data;
 }
 
-std::string * YData::toString()
+const std::string * YData::toString()
 {
 	if(this->str != NULL)
 	{

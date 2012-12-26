@@ -188,7 +188,7 @@ namespace YLR
 		 *
 		 * \return 转换后的数据。
 		 */
-		std::string * toString();
+		const std::string * toString();
 
 		/*!
 		 * \brief

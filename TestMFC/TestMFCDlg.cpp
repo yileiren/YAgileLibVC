@@ -97,17 +97,8 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	YLR::YSerialPort port;
-	port.serialNum = 2;
-	bool b = port.openSerialPort();
-	if(b)
-	{
-		AfxMessageBox(_T("true"));
-	}
-	else
-	{
-		AfxMessageBox(_T("false"));
-	}
-
+	YLR::YData d;
+	d.setFrom(23);
+	const std::string * str = d.toString();
+	str = NULL;
 }
