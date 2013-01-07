@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\YDataBase\YColumn.h" />
     <ClInclude Include="..\include\YDataBase\YDataColumns.h" />
+    <ClInclude Include="..\include\YDataBase\YDataInterface.h" />
     <ClInclude Include="..\include\YDataBase\YDataRow.h" />
     <ClInclude Include="..\include\YDataBase\YDataTable.h" />
     <ClInclude Include="resource.h" />

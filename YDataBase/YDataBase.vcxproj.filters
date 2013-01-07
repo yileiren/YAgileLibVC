@@ -48,6 +48,9 @@
     <ClInclude Include="DLL_Config.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\YDataBase\YDataInterface.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
