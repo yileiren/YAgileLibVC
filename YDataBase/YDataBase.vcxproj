@@ -84,6 +84,7 @@
     <ClInclude Include="..\include\YDataBase\YDataInterface.h" />
     <ClInclude Include="..\include\YDataBase\YDataRow.h" />
     <ClInclude Include="..\include\YDataBase\YDataTable.h" />
+    <ClInclude Include="..\include\YDataBase\YSqlServerDataBase.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -101,6 +102,9 @@
     <ClCompile Include="..\src\YDataBase\YDataTable.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\src\YDataBase\YSqlServerDataBase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

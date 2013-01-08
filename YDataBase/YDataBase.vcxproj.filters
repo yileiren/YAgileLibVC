@@ -51,6 +51,9 @@
     <ClInclude Include="..\include\YDataBase\YDataInterface.h">
       <Filter>头文件\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\YDataBase\YSqlServerDataBase.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -66,6 +69,9 @@
       <Filter>源文件\src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\YDataBase\YDataTable.cpp">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\YDataBase\YSqlServerDataBase.cpp">
       <Filter>源文件\src</Filter>
     </ClCompile>
   </ItemGroup>

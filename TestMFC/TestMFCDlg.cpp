@@ -13,6 +13,8 @@
 
 #include "../include/YSerialPort/YSerialPort.h"
 
+#include "../include/YDataBase/YSqlServerDataBase.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -97,8 +99,7 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	YLR::YData d;
-	d.setFrom(23);
-	const std::string * str = d.toString();
-	str = NULL;
+	//YLR::YSqlServerDataBase d1;
+	YLR::YColumn c1;
+	YLR::YColumn c2(c1);
 }

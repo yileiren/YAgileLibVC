@@ -13,7 +13,7 @@ namespace YLR
 	 * 数据库连接接口，定义所有数据库连接的标准方法。
 	 * 作者：董帅 创建时间：2013-1-7 15:58:09
 	 */
-	class YDATABASE_API YSqlServerDataBase
+	class YDATABASE_API YDataInterface
 	{
 	public:
 
@@ -114,14 +114,14 @@ namespace YLR
 
 		/*!
 		 * \brief
-		 * 实行SQL语句，返回数据。
+		 * 实行SQL语句，返回数据，使用结束注意释放数据。
 		 * 作者：董帅 创建时间：2013-1-7 16:11:02
 		 *
 		 * \param sql 要执行的SQL语句。
 		 *
 		 * \return 返回数据，失败返回NULL。
 		 */
-		virtual const YDataTable * executeSqlReturnDt(const std::string & sql)  = 0;
+		virtual YDataTable * executeSqlReturnDt(const std::string & sql)  = 0;
 
 		/*!
 		 * \brief

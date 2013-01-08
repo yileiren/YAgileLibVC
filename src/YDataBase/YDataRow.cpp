@@ -10,11 +10,13 @@ YDataRow::YDataRow() :
 
 YDataRow::YDataRow(const YDataRow & item)
 {
+	this->_columns = new std::vector<YColumn>();
 	for(std::vector<YColumn>::size_type s = 0;s < item._columns->size();s++)
 	{
 		this->_columns->push_back(item._columns->at(s));
 	}
 
+	this->_datas = new std::vector<YData>();
 	for(std::vector<YData>::size_type s = 0;s < item._datas->size();s++)
 	{
 		this->_datas->push_back(item._datas->at(s));

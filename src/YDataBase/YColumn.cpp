@@ -3,8 +3,8 @@
 using namespace YLR;
 
 YColumn::YColumn() :
-	_physicaName(NULL),
-	_logicalName(NULL),
+	_physicaName(new std::string()),
+	_logicalName(new std::string()),
 	_dataType(YData::YInt)
 {
 	//初始化数据。
