@@ -79,6 +79,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\YDataBase\ado\MSAdo.h" />
     <ClInclude Include="..\include\YDataBase\YColumn.h" />
     <ClInclude Include="..\include\YDataBase\YDataColumns.h" />
     <ClInclude Include="..\include\YDataBase\YDataInterface.h" />

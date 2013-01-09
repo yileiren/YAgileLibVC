@@ -2,6 +2,7 @@
 #define Y_SQLSERVER_DATABASE
 
 #include "YDataInterface.h"
+#include "ado\MSAdo.h"
 
 namespace YLR
 {
@@ -241,7 +242,6 @@ namespace YLR
 		virtual bool executeSqlWithOutDt(const std::string & sql);
 	private:
 		DataBaseType _dataBaseType; /*!< 数据库类型。 */
-		ConnectState _connectState; /*!< 连接状态。 */
 		std::string * _errorText; /*!< 最后一次操作的错误信息。 */
 
 		std::string * _dataBaseName; /*!< 数据库名称。 */
@@ -250,6 +250,8 @@ namespace YLR
 		std::string * _example; /*!< 实例名称。 */
 		std::string * _userID; /*!< 用户id。 */
 		std::string * _userPassword; /*!< 用户密码。 */
+
+		_ConnectionPtr *_connection; /*!< ado数据库连接对象。 */
 	};
 }
 

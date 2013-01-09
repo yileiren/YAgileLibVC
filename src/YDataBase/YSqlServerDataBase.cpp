@@ -2,23 +2,24 @@
 
 using namespace YLR;
 
+#include <sstream>
+
 YSqlServerDataBase::YSqlServerDataBase() :
 	_dataBaseType(YDataInterface::MSSQL),
-	_connectState(YDataInterface::Disconnected),
 	_errorText(new std::string("")),
 	_dataBaseName(new std::string("")),
 	_serverName(new std::string("localhost")),
 	_port(1433),
 	_example(new std::string("")),
 	_userID(new std::string("sa")),
-	_userPassword(new std::string(""))
+	_userPassword(new std::string("")),
+	_connection(new _ConnectionPtr())
 {
 }
 
 YSqlServerDataBase::YSqlServerDataBase(const YSqlServerDataBase & item)
 {
 	this->_dataBaseType = item._dataBaseType;
-	this->_connectState = item._connectState;
 	this->_errorText = new std::string(*item._errorText);
 	this->_dataBaseName = new std::string(*item._dataBaseName);
 	this->_serverName = new std::string(*item._serverName);
@@ -26,6 +27,7 @@ YSqlServerDataBase::YSqlServerDataBase(const YSqlServerDataBase & item)
 	this->_example = new std::string(*item._example);
 	this->_userID = new std::string(*item._userID);
 	this->_userPassword = new std::string(*item._userPassword);
+	this->_connection = new _ConnectionPtr();
 }
 
 YSqlServerDataBase::~YSqlServerDataBase()
@@ -36,6 +38,7 @@ YSqlServerDataBase::~YSqlServerDataBase()
 	delete this->_example;
 	delete this->_userID;
 	delete this->_userPassword;
+	delete this->_connection;
 }
 
 YSqlServerDataBase & YSqlServerDataBase::operator=(const YSqlServerDataBase & item)
@@ -46,9 +49,9 @@ YSqlServerDataBase & YSqlServerDataBase::operator=(const YSqlServerDataBase & it
 	delete this->_example;
 	delete this->_userID;
 	delete this->_userPassword;
+	delete this->_connection;
 
 	this->_dataBaseType = item._dataBaseType;
-	this->_connectState = item._connectState;
 	this->_errorText = new std::string(*item._errorText);
 	this->_dataBaseName = new std::string(*item._dataBaseName);
 	this->_serverName = new std::string(*item._serverName);
@@ -56,6 +59,7 @@ YSqlServerDataBase & YSqlServerDataBase::operator=(const YSqlServerDataBase & it
 	this->_example = new std::string(*item._example);
 	this->_userID = new std::string(*item._userID);
 	this->_userPassword = new std::string(*item._userPassword);
+	this->_connection = new _ConnectionPtr();
 	return *this;
 }
 
@@ -111,7 +115,7 @@ const std::string * YSqlServerDataBase::getUserID() const
 
 void YSqlServerDataBase::setUserPassword(const std::string & pass)
 {
-	*this->_userPassword;
+	*this->_userPassword = pass;
 }
 
 const std::string * YSqlServerDataBase::getUserPassword() const
@@ -131,36 +135,105 @@ const std::string * YSqlServerDataBase::errorMessage()
 
 bool YSqlServerDataBase::connectDataBase()
 {
-	return false;
+	if(FAILED((*this->_connection).CreateInstance("ADODB.Connection")))
+	{
+		*this->_errorText = "创建接口失败！";
+		return false;
+	}
+
+	//拼接数据库连接字符串。
+	std::string connectString = "Driver=SQL Server;Server=";
+	connectString += *this->_serverName;
+
+	std::stringstream stream;
+	stream << this->_port;
+	std::string sPort;
+	stream >> sPort;
+	connectString += "," + sPort;
+
+	if(*this->_example != "")
+	{
+		connectString += "/" + *this->_example;
+	}
+	connectString += ";Database=" + *this->_dataBaseName;
+	connectString += ";UID=" + *this->_userID;
+	connectString += ";PWD=" + *this->_userPassword;
+
+	//连接数据库
+	if(FAILED((*this->_connection)->Open(connectString.c_str(),"","",-1)))
+	{
+		*this->_errorText = "打开数据库连接失败！";
+		(*this->_connection).Release();
+		return false;
+	}
+	return true;
 }
 
 bool YSqlServerDataBase::disconnectDataBase()
 {
-	return false;
+	if(adStateOpen == (*this->_connection)->State)
+	{
+		//断开数据库连接。
+		if(FAILED((*this->_connection)->Close()))
+		{
+			*this->_errorText = "断开数据库连接失败！";
+			return false;
+		}
+
+		(*this->_connection).Release();
+	}
+	return true;;
 }
 
 YDataInterface::ConnectState YSqlServerDataBase::connectState()
 {
-	return this->_connectState;
+	if((*this->_connection)->State)
+	{
+		return YDataInterface::Connected;
+	}
+	else
+	{
+		return YDataInterface::Disconnected;
+	}
 }
 
 bool YSqlServerDataBase::beginTransaction()
 {
-	return false;
+	(*this->_connection)->BeginTrans();
+	return true;
 }
 
 bool YSqlServerDataBase::commitTransaction()
 {
-	return false;
+	(*this->_connection)->CommitTrans();
+	return true;
 }
 
 bool YSqlServerDataBase::rollbackTransaction()
 {
-	return false;
+	(*this->_connection)->RollbackTrans();
+	return true;
 }
 
 YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
 {
+	//获取数据集。
+	_CommandPtr pCommand;
+	_RecordsetPtr pRs;
+	pCommand.CreateInstance(__uuidof(Command));
+	pCommand->ActiveConnection=(*this->_connection);
+	pCommand->CommandText = sql.c_str();
+	pCommand->CommandType = adCmdText;
+	pCommand->Parameters->Refresh();
+	pRs = pCommand->Execute(NULL,NULL,adCmdUnknown);
+
+	while(!pRs->adoEOF)
+	{
+		 _bstr_t ret  = pRs->Fields->GetItem("name")->Value;
+		 std::string s = ret;
+		pRs->MoveNext();
+	}
+
 	return NULL;
 }
 

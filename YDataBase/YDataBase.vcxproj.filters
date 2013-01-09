@@ -54,6 +54,9 @@
     <ClInclude Include="..\include\YDataBase\YSqlServerDataBase.h">
       <Filter>头文件\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\YDataBase\ado\MSAdo.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

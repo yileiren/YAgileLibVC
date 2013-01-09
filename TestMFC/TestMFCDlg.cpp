@@ -56,6 +56,12 @@ BOOL CTestMFCDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 
+	if(!AfxOleInit())//这就是初始化COM库
+	{
+		AfxMessageBox(_T("OLE初始化出错!"));
+		return FALSE;
+	}
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -99,7 +105,15 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	//YLR::YSqlServerDataBase d1;
-	YLR::YColumn c1;
-	YLR::YColumn c2(c1);
+	
+	YLR::YSqlServerDataBase d1;
+	d1.setDataBaseName("Inventory");
+	d1.setUserPassword("123456");
+	d1.setExample("MSSQLSERVER");
+	if(d1.connectDataBase())
+	{
+		AfxMessageBox(_T("OK"));
+		d1.executeSqlReturnDt("SELECT * FROM ORG_USER");
+		d1.disconnectDataBase();
+	}
 }
