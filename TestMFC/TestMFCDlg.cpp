@@ -107,13 +107,13 @@ void CTestMFCDlg::OnBnClickedOk()
 {
 	
 	YLR::YSqlServerDataBase d1;
-	d1.setDataBaseName("Inventory");
+	d1.setDataBaseName("Test");
 	d1.setUserPassword("123456");
 	d1.setExample("MSSQLSERVER");
 	if(d1.connectDataBase())
 	{
 		AfxMessageBox(_T("OK"));
-		d1.executeSqlReturnDt("SELECT * FROM ORG_USER");
+		d1.executeSqlReturnDt("SELECT * FROM test1");
 		d1.disconnectDataBase();
 	}
 }
