@@ -26,6 +26,7 @@ namespace YLR
 		 */
 		enum DataType
 		{
+			YBool,        /*!< bool类型 */
 			YInt,         /*!< int类型 */
 			YDouble,      /*!< double类型 */
 			YFloat,       /*!< float类型 */
@@ -38,6 +39,15 @@ namespace YLR
 		 * 作者：董帅 创建时间：2012-4-22 15:03:24
 		 */
 		YData();
+
+		/*!
+		 * \brief
+		 * 使用bool类型的数据初始化的构造函数。
+		 * 作者：董帅 创建时间：2012-4-22 15:11:12
+		 *
+		 * \param b 初始化的数据。
+		 */
+		YData(const bool &b);
 
 		/*!
 		 * \brief
@@ -113,6 +123,15 @@ namespace YLR
 		 * \return 是NULL返回true，否则返回false。
 		 */
 		bool isNull() const;
+
+		/*!
+		 * \brief
+		 * 设置数据。
+		 * 作者：董帅 创建时间：2013-1-15 17:18:08
+		 *
+		 * \param b 数据
+		 */
+		void setFrom(const bool &b);
 
 		/*!
 		 * \brief

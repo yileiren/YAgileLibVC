@@ -11,6 +11,19 @@ YData::YData() :
 {
 }
 
+YData::YData(const bool &b)
+{
+	//设置存储空间
+	this->setSize(sizeof(b));
+
+	//复制数据
+	YBYTE * buf = new YBYTE[this->getSize()];
+	memcpy(buf,&b,this->getSize());
+	setData(buf,this->getSize());
+	delete[] buf;
+	this->_type = YData::YBool;
+}
+
 YData::YData(const int &d) :
 	str(NULL)
 {
@@ -103,6 +116,19 @@ bool YData::isNull() const
 	}
 }
 
+void YData::setFrom(const bool &b)
+{
+	//设置存储空间
+	this->setSize(sizeof(b));
+
+	//复制数据
+	YBYTE * buf = new YBYTE[this->getSize()];
+	memcpy(buf,&b,this->getSize());
+	this->setData(buf,this->getSize());
+	delete[] buf;
+	this->_type = YData::YBool;
+}
+
 void YData::setFrom(const int &d)
 {
 	//设置存储空间
@@ -176,6 +202,22 @@ int YData::toInt() const
 
 	switch(this->_type)
 	{
+	case YData::YBool:
+		{
+			bool b;
+			YBYTE * buf = new YBYTE[sizeof(bool)];
+			this->getData(buf,sizeof(bool));
+			memcpy(&b,buf,sizeof(bool));
+			delete[] buf;
+			if(b)
+			{
+				data = 1;
+			}
+			else
+			{
+				data = 0;
+			}
+		}
 	case YData::YInt:
 		{
 			YBYTE * buf = new YBYTE[sizeof(int)];
@@ -222,6 +264,22 @@ double YData::toDouble() const
 
 	switch(this->_type)
 	{
+	case YData::YBool:
+		{
+			bool b;
+			YBYTE * buf = new YBYTE[sizeof(bool)];
+			this->getData(buf,sizeof(bool));
+			memcpy(&b,buf,sizeof(bool));
+			delete[] buf;
+			if(b)
+			{
+				data = 1.0;
+			}
+			else
+			{
+				data = 0.0;
+			}
+		}
 	case YData::YInt:
 		{
 			YBYTE * buf = new YBYTE[sizeof(int)];
@@ -268,6 +326,22 @@ float YData::toFloat() const
 
 	switch(this->_type)
 	{
+	case YData::YBool:
+		{
+			bool b;
+			YBYTE * buf = new YBYTE[sizeof(bool)];
+			this->getData(buf,sizeof(bool));
+			memcpy(&b,buf,sizeof(bool));
+			delete[] buf;
+			if(b)
+			{
+				data = 1.0;
+			}
+			else
+			{
+				data = 0.0;
+			}
+		}
 	case YData::YInt:
 		{
 			YBYTE * buf = new YBYTE[sizeof(int)];
@@ -318,6 +392,22 @@ const std::string * YData::toString()
 
 	switch(this->_type)
 	{
+	case YData::YBool:
+		{
+			bool b;
+			YBYTE * buf = new YBYTE[sizeof(bool)];
+			this->getData(buf,sizeof(bool));
+			memcpy(&b,buf,sizeof(bool));
+			delete[] buf;
+			if(b)
+			{
+				*this->str = "true";
+			}
+			else
+			{
+				*this->str = "false";
+			}
+		}
 	case YData::YInt:
 		{
 			YBYTE * buf = new YBYTE[sizeof(int)];
