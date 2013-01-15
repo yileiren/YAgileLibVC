@@ -97,30 +97,10 @@ namespace YLR
 		 */
 		const std::string * getLogicalName() const;	
 
-		/*!
-		 * \brief
-		 * 设置数据类型。
-		 * 作者：董帅 创建时间：2012-11-5 22:46:12
-		 *
-		 * \param dataType 数据类型。
-		 */
-		void setDataType(const YData::DataType & dataType);
-
-		/*!
-		 * \brief
-		 * 获取字段数据类型。
-		 * 作者：董帅 创建时间：2012-11-5 22:48:28
-		 *
-		 * \return 字段数据类型。
-		 */
-		const YData::DataType getDataType() const;
-
 	protected:
 		std::string * _physicaName; /*!<字段物理名称。 */
 	
 		std::string * _logicalName; /*!<字段逻辑名称。 */
-    
-		YData::DataType _dataType; /*!<字段数据类型。 */
 	};
 }
 #endif 

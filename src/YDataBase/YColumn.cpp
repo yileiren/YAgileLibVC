@@ -4,8 +4,7 @@ using namespace YLR;
 
 YColumn::YColumn() :
 	_physicaName(new std::string()),
-	_logicalName(new std::string()),
-	_dataType(YData::YInt)
+	_logicalName(new std::string())
 {
 	//初始化数据。
 }
@@ -15,7 +14,6 @@ YColumn::YColumn(const std::string & physicaName, const std::string & logicalNam
 	//使用参数初始化。
 	this->_physicaName = new std::string(physicaName);
 	this->_logicalName = new std::string(logicalName);
-	this->_dataType = dataType;
 }
 
 YColumn::YColumn(const YColumn & item)
@@ -23,7 +21,6 @@ YColumn::YColumn(const YColumn & item)
 	//使用对象初始化数据。
 	this->_physicaName = new std::string(*item._physicaName);
 	this->_logicalName = new std::string(*item._logicalName);
-	this->_dataType = item._dataType;
 }
 
 YColumn::~YColumn()
@@ -55,7 +52,6 @@ YColumn & YColumn::operator=(const YColumn & item)
 
 	this->_physicaName = new std::string(*item._physicaName);
 	this->_logicalName = new std::string(*item._logicalName);
-	this->_dataType = item._dataType;
 
 	return *this;
 }
@@ -88,14 +84,4 @@ void YColumn::setLogicalName(const std::string & logicalName)
 const std::string * YColumn::getLogicalName() const
 {
 	return this->_logicalName;
-}
-
-void YColumn::setDataType(const YData::DataType & dataType)
-{
-	this->_dataType = dataType;
-}
-
-const YData::DataType YColumn::getDataType() const
-{
-	return this->_dataType;
 }
