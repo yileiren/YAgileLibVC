@@ -225,7 +225,9 @@ YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
 	pCommand->CommandText = sql.c_str();
 	pCommand->CommandType = adCmdText;
 	pCommand->Parameters->Refresh();
-	if(FAILED(pRs = pCommand->Execute(NULL,NULL,adCmdUnknown)))
+	pRs = pCommand->Execute(NULL,NULL,adCmdUnknown);
+	
+	if(pRs != NULL)
 	{
 
 		pRs->MoveFirst();
@@ -245,67 +247,69 @@ YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
 			{
 				row.addColumn(*table->getColumn(i));
 				//设置数据类型。
-				_variant_t var = pRs->Fields->GetItem(i);
-				switch (var.vt)
+				if(pRs->Fields->GetItem(i)->GetValue().vt != VT_NULL)
 				{
-				case VT_BSTR: //字符串
-				case VT_LPSTR:
-				case VT_LPWSTR:
-				case VT_I1:   //无符号字符
-				case VT_UI1:
-				case VT_EMPTY:   //空
-				case VT_DATE: //日期型
+					switch (pRs->Fields->GetItem(i)->GetType())
 					{
-						_bstr_t ret  = pRs->Fields->GetItem(i)->Value;
-						std::string s = ret;
+					case adBSTR: //字符串
+					case adChar:
+					case adDate:
+					case adDBDate:   
+					case adDBTime:
+					case adLongVarChar:  
+					case adLongVarWChar: 
+					case adVarChar:
+					case adVarWChar:
+					case adWChar:
+						{
+							_bstr_t ret  = pRs->Fields->GetItem(i)->Value;
+							std::string s = ret;
 
-						row.setData(i,YData(s));
-						break;
-					}
-				case VT_I2:   //短整型
-				case VT_UI2:   //无符号短整型
-				case VT_INT: //整型
-				case VT_I4:   //整型
-				case VT_I8:   //长整型
-				case VT_UINT:   //无符号整型
-				case VT_UI4:    //无符号整型
-				case VT_UI8:    //无符号长整型
-				case VT_VOID:
-					{
-						row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
-						break;
-					}
-				case VT_R4:   //浮点型
-				case VT_R8:   //双精度型
-				case VT_DECIMAL: //小数
-					{
-						row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
-					}
-				case VT_BOOL:   //布尔型  
-					{
-						row.setData(i,YData((bool)pRs->Fields->GetItem(i)->GetValue()));
-						break;
-					}
-				case VT_NULL://NULL值
-				case VT_UNKNOWN:   //未知类型
-					{
-						YData data;
-						data.setNull();
-						row.setData(i,data);
-						break;
-					}
-				default:
-					{
-						YData data;
-						data.setNull();
-						row.setData(i,data);
-						break;
+							row.setData(i,YData(s));
+							break;
+						}
+					case adBigInt:
+					case adInteger:
+					case adTinyInt:
+					case adUnsignedBigInt:
+					case adUnsignedInt:
+					case adUnsignedSmallInt:
+					case adUnsignedTinyInt:
+						{
+							row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
+							break;
+						}
+					case adCurrency:
+					case adDouble:
+					case adNumeric:
+					case adSingle:
+						{
+							row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
+							break;
+						}
+					case adBoolean:   //布尔型  
+						{
+							row.setData(i,YData((bool)pRs->Fields->GetItem(i)->GetValue()));
+							break;
+						}
+					default:
+						{
+							YData data;
+							data.setNull();
+							row.setData(i,data);
+							break;
+						}
 					}
 				}
-
-				table->addRow(row);
+				else
+				{
+					YData data;
+					data.setNull();
+					row.setData(i,data);
+				}
 			}
 
+			table->addRow(row);
 			pRs->MoveNext();
 		}
 

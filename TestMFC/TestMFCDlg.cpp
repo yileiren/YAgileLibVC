@@ -113,7 +113,14 @@ void CTestMFCDlg::OnBnClickedOk()
 	if(d1.connectDataBase())
 	{
 		AfxMessageBox(_T("OK"));
-		d1.executeSqlReturnDt("SELECT * FROM test1");
+		YLR::YDataTable *table = d1.executeSqlReturnDt("SELECT * FROM tb_testAdo");
+		if(table != NULL)
+		{
+			CString strCount;
+			strCount.Format(_T("%d"),(table->getRowCount()));
+			AfxMessageBox(strCount);
+			delete table;
+		}
 		d1.disconnectDataBase();
 	}
 }
