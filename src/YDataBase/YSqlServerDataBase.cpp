@@ -225,69 +225,94 @@ YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
 	pCommand->CommandText = sql.c_str();
 	pCommand->CommandType = adCmdText;
 	pCommand->Parameters->Refresh();
-	pRs = pCommand->Execute(NULL,NULL,adCmdUnknown);
-
-	pRs->MoveFirst();
-	//构建表格字段信息
-	YDataTable *table = new YDataTable();
-	for(long i = 0;i < pRs->Fields->Count;i++)
+	if(FAILED(pRs = pCommand->Execute(NULL,NULL,adCmdUnknown)))
 	{
-		YColumn column;
-		column.setPhysicaName(std::string(pRs->Fields->GetItem(i)->GetName()));//数据库存储物理名称。
-		table->addColumn(column);
-	}
 
-	while(!pRs->adoEOF)
-	{
+		pRs->MoveFirst();
+		//构建表格字段信息
+		YDataTable *table = new YDataTable();
 		for(long i = 0;i < pRs->Fields->Count;i++)
 		{
-			//设置数据类型。
-			_variant_t var = pRs->Fields->GetItem(i);
-			switch (var.vt)
-			{
-			case VT_BSTR: //字符串
-			case VT_LPSTR:
-			case VT_LPWSTR:
-			case VT_I1:   //无符号字符
-			case VT_UI1:
-			case VT_EMPTY:   //空
-			case VT_DATE: //日期型
-				{
-					break;
-				}
-			case VT_I2:   //短整型
-			case VT_UI2:   //无符号短整型
-			case VT_INT: //整型
-			case VT_I4:   //整型
-			case VT_I8:   //长整型
-			case VT_UINT:   //无符号整型
-			case VT_UI4:    //无符号整型
-			case VT_UI8:    //无符号长整型
-			case VT_VOID:
-				{
-					break;
-				}
-			case VT_R4:   //浮点型
-			case VT_R8:   //双精度型
-			case VT_DECIMAL: //小数
-				{
-				}
-			case VT_BOOL:   //布尔型  
-				{
-					break;
-				}
-			case VT_NULL://NULL值
-				break;
-			case VT_UNKNOWN:   //未知类型
-			default:
-				break;
-			}
+			YColumn column;
+			column.setPhysicaName(std::string(pRs->Fields->GetItem(i)->GetName()));//数据库存储物理名称。
+			table->addColumn(column);
 		}
 
-		pRs->MoveNext();
-	}
+		while(!pRs->adoEOF)
+		{
+			YDataRow row;
+			for(long i = 0;i < pRs->Fields->Count;i++)
+			{
+				row.addColumn(*table->getColumn(i));
+				//设置数据类型。
+				_variant_t var = pRs->Fields->GetItem(i);
+				switch (var.vt)
+				{
+				case VT_BSTR: //字符串
+				case VT_LPSTR:
+				case VT_LPWSTR:
+				case VT_I1:   //无符号字符
+				case VT_UI1:
+				case VT_EMPTY:   //空
+				case VT_DATE: //日期型
+					{
+						_bstr_t ret  = pRs->Fields->GetItem(i)->Value;
+						std::string s = ret;
 
-	return NULL;
+						row.setData(i,YData(s));
+						break;
+					}
+				case VT_I2:   //短整型
+				case VT_UI2:   //无符号短整型
+				case VT_INT: //整型
+				case VT_I4:   //整型
+				case VT_I8:   //长整型
+				case VT_UINT:   //无符号整型
+				case VT_UI4:    //无符号整型
+				case VT_UI8:    //无符号长整型
+				case VT_VOID:
+					{
+						row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
+						break;
+					}
+				case VT_R4:   //浮点型
+				case VT_R8:   //双精度型
+				case VT_DECIMAL: //小数
+					{
+						row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
+					}
+				case VT_BOOL:   //布尔型  
+					{
+						row.setData(i,YData((bool)pRs->Fields->GetItem(i)->GetValue()));
+						break;
+					}
+				case VT_NULL://NULL值
+				case VT_UNKNOWN:   //未知类型
+					{
+						YData data;
+						data.setNull();
+						row.setData(i,data);
+						break;
+					}
+				default:
+					{
+						YData data;
+						data.setNull();
+						row.setData(i,data);
+						break;
+					}
+				}
+
+				table->addRow(row);
+			}
+
+			pRs->MoveNext();
+		}
+
+		return table;
+	}
+	else
+		return NULL;
 }
 
 bool YSqlServerDataBase::executeSqlWithOutDt(const std::string & sql)
