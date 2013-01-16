@@ -215,7 +215,7 @@ bool YSqlServerDataBase::rollbackTransaction()
 	return true;
 }
 
-YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
+const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
 {
 	//获取数据集。
 	_CommandPtr pCommand;

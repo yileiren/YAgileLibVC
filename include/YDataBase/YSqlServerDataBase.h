@@ -226,9 +226,9 @@ namespace YLR
 		 *
 		 * \param sql 要执行的SQL语句。
 		 *
-		 * \return 返回数据，失败返回NULL。
+		 * \return 返回数据，失败返回NULL，返回的数据集使用YLR::YDataInterface::releaseDataTable方法释放。
 		 */
-		virtual YDataTable * executeSqlReturnDt(const std::string & sql);
+		virtual const YDataTable * executeSqlReturnDt(const std::string & sql);
 
 		/*!
 		 * \brief

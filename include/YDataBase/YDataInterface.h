@@ -119,9 +119,9 @@ namespace YLR
 		 *
 		 * \param sql 要执行的SQL语句。
 		 *
-		 * \return 返回数据，失败返回NULL。
+		 * \return 返回数据，失败返回NULL，返回的数据集使用YLR::YDataInterface::releaseDataTable方法释放。
 		 */
-		virtual YDataTable * executeSqlReturnDt(const std::string & sql)  = 0;
+		virtual const YDataTable * executeSqlReturnDt(const std::string & sql)  = 0;
 
 		/*!
 		 * \brief
@@ -133,6 +133,18 @@ namespace YLR
 		 * \return 成功返回true，否则返回false。
 		 */
 		virtual bool executeSqlWithOutDt(const std::string & sql)  = 0;
+
+		/*!
+		 * \brief
+		 * 释放数据集。
+		 * 作者：董帅 创建时间：2013-1-16 17:40:35
+		 *
+		 * \param t 要释放的数据集。
+		 */
+		static void releaseDataTable(const YDataTable *t)
+		{
+			delete t;
+		}
 	};
 }
 
