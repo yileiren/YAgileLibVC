@@ -116,9 +116,129 @@ void CTestMFCDlg::OnBnClickedOk()
 		const YLR::YDataTable *table = d1.executeSqlReturnDt("SELECT * FROM tb_testAdo");
 		if(table != NULL)
 		{
-			CString strCount;
-			strCount.Format(_T("%d"),(table->getRowCount()));
-			AfxMessageBox(strCount);
+			for(int i = 0;i < table->getRowCount();i++)
+			{
+				CString str,var;
+				str = "";
+				if(table->getData(i,0)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					var.Format(_T("%d,"),table->getData(i,0)->toInt());
+					str += var;
+				}
+
+				if(table->getData(i,1)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					var.Format(_T("%f,"),table->getData(i,1)->toDouble());
+					str += var;
+				}
+
+				if(table->getData(i,2)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					var.Format(_T("%f,"),table->getData(i,2)->toDouble());
+					str += var;
+				}
+
+				if(table->getData(i,3)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					var.Format(_T("%f,"),table->getData(i,3)->toDouble());
+					str += var;
+				}
+
+				if(table->getData(i,4)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,4));
+					str += CString(sData.toString()->c_str());
+				}
+
+				if(table->getData(i,5)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,5));
+					var.Format(_T("%s,"),sData.toString()->c_str());
+					str += var;
+				}
+
+				if(table->getData(i,6)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,6));
+					var.Format(_T("%s,"),sData.toString()->c_str());
+					str += var;
+				}
+
+				if(table->getData(i,7)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,7));
+					var.Format(_T("%s,"),sData.toString()->c_str());
+					str += var;
+				}
+
+				if(table->getData(i,8)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,8));
+					var.Format(_T("%s,"),sData.toString()->c_str());
+					str += var;
+				}
+
+				if(table->getData(i,9)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,9));
+					var.Format(_T("%s,"),sData.toString()->c_str());
+					str += var;
+				}
+
+				if(table->getData(i,10)->isNull())
+				{
+					str += "NULL,";
+				}
+				else
+				{
+					YLR::YData sData(*table->getData(i,10));
+					var.Format(_T("%s,"),sData.toString()->c_str());
+					str += var;
+				}
+
+				AfxMessageBox(str);
+			}
+			
 			YLR::YDataInterface::releaseDataTable(table);
 		}
 		d1.disconnectDataBase();

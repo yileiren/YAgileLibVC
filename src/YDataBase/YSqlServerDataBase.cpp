@@ -218,21 +218,21 @@ bool YSqlServerDataBase::rollbackTransaction()
 const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
 {
 	//获取数据集。
-	_CommandPtr pCommand;
 	_RecordsetPtr pRs;
-	pCommand.CreateInstance(__uuidof(Command));
-	pCommand->ActiveConnection=(*this->_connection);
-	pCommand->CommandText = sql.c_str();
-	pCommand->CommandType = adCmdText;
-	pCommand->Parameters->Refresh();
-	pRs = pCommand->Execute(NULL,NULL,adCmdUnknown);
+	if(FAILED(pRs.CreateInstance(__uuidof(Recordset))))
+	{
+		*this->_errorText = "创建_RecordsetPtr接口失败！";
+		return NULL;
+	}
+	pRs->Open(sql.c_str(),(*this->_connection).GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 	
+	YDataTable *table = NULL;
 	if(pRs != NULL)
 	{
 
 		pRs->MoveFirst();
 		//构建表格字段信息
-		YDataTable *table = new YDataTable();
+		table = new YDataTable();
 		for(long i = 0;i < pRs->Fields->Count;i++)
 		{
 			YColumn column;
@@ -256,14 +256,21 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 					case adDate:
 					case adDBDate:   
 					case adDBTime:
+					case adDBTimeStamp:
 					case adLongVarChar:  
 					case adLongVarWChar: 
 					case adVarChar:
 					case adVarWChar:
 					case adWChar:
 						{
-							_bstr_t ret  = pRs->Fields->GetItem(i)->Value;
-							std::string s = ret;
+							long lDataLength = pRs->Fields->GetItem(i)->GetActualSize();
+							
+							std::string s = "";
+							if(lDataLength > 0)
+							{
+								_bstr_t ret(pRs->Fields->GetItem(i)->Value);
+								s = ret;
+							}
 
 							row.setData(i,YData(s));
 							break;
@@ -312,11 +319,12 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 			table->addRow(row);
 			pRs->MoveNext();
 		}
-
-		return table;
 	}
-	else
-		return NULL;
+
+	pRs->Close();
+	//pRs->Release();
+
+	return table;
 }
 
 bool YSqlServerDataBase::executeSqlWithOutDt(const std::string & sql)
