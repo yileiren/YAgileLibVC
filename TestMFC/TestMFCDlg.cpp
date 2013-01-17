@@ -241,6 +241,9 @@ void CTestMFCDlg::OnBnClickedOk()
 			
 			YLR::YDataInterface::releaseDataTable(table);
 		}
+		d1.beginTransaction();
+		d1.executeSqlWithOutDt("INSERT INTO tb_testAdo (num1) VALUES (70.23)");
+		d1.rollbackTransaction();
 		d1.disconnectDataBase();
 	}
 }

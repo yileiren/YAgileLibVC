@@ -329,5 +329,30 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 
 bool YSqlServerDataBase::executeSqlWithOutDt(const std::string & sql)
 {
-	return false;
+	_CommandPtr objCommand;//执行对象
+
+	//创建执行接口
+	if (FAILED(objCommand.CreateInstance("ADODB.Command")))
+	{
+		*this->_errorText = "创建执行接口失败！";
+		return false;
+	}
+	
+	try
+	{
+		_variant_t vNULL;
+		vNULL.vt = VT_ERROR;
+		vNULL.scode = DISP_E_PARAMNOTFOUND;///定义为无参数
+		objCommand->ActiveConnection = *this->_connection;///非常关键的一句，将建立的连接赋值给它
+
+		objCommand->CommandText = sql.c_str();
+		
+		objCommand->Execute(&vNULL,&vNULL,adCmdText);
+		return true;
+	}
+	catch(_com_error er)
+	{
+		*this->_errorText =  "执行失败！";
+		return false;
+	}
 }
