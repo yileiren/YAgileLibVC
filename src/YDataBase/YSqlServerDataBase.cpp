@@ -199,20 +199,44 @@ YDataInterface::ConnectState YSqlServerDataBase::connectState()
 
 bool YSqlServerDataBase::beginTransaction()
 {
-	(*this->_connection)->BeginTrans();
-	return true;
+	try
+	{
+		(*this->_connection)->BeginTrans();
+		return true;
+	}
+	catch(_com_error er)
+	{
+		*this->_errorText =  "开启事务失败！";
+		return false;
+	}
 }
 
 bool YSqlServerDataBase::commitTransaction()
 {
-	(*this->_connection)->CommitTrans();
-	return true;
+	try
+	{
+		(*this->_connection)->CommitTrans();
+		return true;
+	}
+	catch(_com_error er)
+	{
+		*this->_errorText =  "提交事务失败！";
+		return false;
+	}
 }
 
 bool YSqlServerDataBase::rollbackTransaction()
 {
-	(*this->_connection)->RollbackTrans();
-	return true;
+	try
+	{
+		(*this->_connection)->RollbackTrans();
+		return true;
+	}
+	catch(_com_error er)
+	{
+		*this->_errorText =  "回滚事务失败！";
+		return false;
+	}
 }
 
 const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sql)
@@ -224,107 +248,115 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 		*this->_errorText = "创建_RecordsetPtr接口失败！";
 		return NULL;
 	}
-	pRs->Open(sql.c_str(),(*this->_connection).GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
-	
-	YDataTable *table = NULL;
-	if(pRs != NULL)
+	try
 	{
-
-		pRs->MoveFirst();
-		//构建表格字段信息
-		table = new YDataTable();
-		for(long i = 0;i < pRs->Fields->Count;i++)
+		pRs->Open(sql.c_str(),(*this->_connection).GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	
+		YDataTable *table = NULL;
+		if(pRs != NULL)
 		{
-			YColumn column;
-			column.setPhysicaName(std::string(pRs->Fields->GetItem(i)->GetName()));//数据库存储物理名称。
-			table->addColumn(column);
-		}
 
-		while(!pRs->adoEOF)
-		{
-			YDataRow row;
+			pRs->MoveFirst();
+			//构建表格字段信息
+			table = new YDataTable();
 			for(long i = 0;i < pRs->Fields->Count;i++)
 			{
-				row.addColumn(*table->getColumn(i));
-				//设置数据类型。
-				if(pRs->Fields->GetItem(i)->GetValue().vt != VT_NULL)
-				{
-					switch (pRs->Fields->GetItem(i)->GetType())
-					{
-					case adBSTR: //字符串
-					case adChar:
-					case adDate:
-					case adDBDate:   
-					case adDBTime:
-					case adDBTimeStamp:
-					case adLongVarChar:  
-					case adLongVarWChar: 
-					case adVarChar:
-					case adVarWChar:
-					case adWChar:
-						{
-							long lDataLength = pRs->Fields->GetItem(i)->GetActualSize();
-							
-							std::string s = "";
-							if(lDataLength > 0)
-							{
-								_bstr_t ret(pRs->Fields->GetItem(i)->Value);
-								s = ret;
-							}
-
-							row.setData(i,YData(s));
-							break;
-						}
-					case adBigInt:
-					case adInteger:
-					case adTinyInt:
-					case adUnsignedBigInt:
-					case adUnsignedInt:
-					case adUnsignedSmallInt:
-					case adUnsignedTinyInt:
-						{
-							row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
-							break;
-						}
-					case adCurrency:
-					case adDouble:
-					case adNumeric:
-					case adSingle:
-						{
-							row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
-							break;
-						}
-					case adBoolean:   //布尔型  
-						{
-							row.setData(i,YData((bool)pRs->Fields->GetItem(i)->GetValue()));
-							break;
-						}
-					default:
-						{
-							YData data;
-							data.setNull();
-							row.setData(i,data);
-							break;
-						}
-					}
-				}
-				else
-				{
-					YData data;
-					data.setNull();
-					row.setData(i,data);
-				}
+				YColumn column;
+				column.setPhysicaName(std::string(pRs->Fields->GetItem(i)->GetName()));//数据库存储物理名称。
+				table->addColumn(column);
 			}
 
-			table->addRow(row);
-			pRs->MoveNext();
+			while(!pRs->adoEOF)
+			{
+				YDataRow row;
+				for(long i = 0;i < pRs->Fields->Count;i++)
+				{
+					row.addColumn(*table->getColumn(i));
+					//设置数据类型。
+					if(pRs->Fields->GetItem(i)->GetValue().vt != VT_NULL)
+					{
+						switch (pRs->Fields->GetItem(i)->GetType())
+						{
+						case adBSTR: //字符串
+						case adChar:
+						case adDate:
+						case adDBDate:   
+						case adDBTime:
+						case adDBTimeStamp:
+						case adLongVarChar:  
+						case adLongVarWChar: 
+						case adVarChar:
+						case adVarWChar:
+						case adWChar:
+							{
+								long lDataLength = pRs->Fields->GetItem(i)->GetActualSize();
+							
+								std::string s = "";
+								if(lDataLength > 0)
+								{
+									_bstr_t ret(pRs->Fields->GetItem(i)->Value);
+									s = ret;
+								}
+
+								row.setData(i,YData(s));
+								break;
+							}
+						case adBigInt:
+						case adInteger:
+						case adTinyInt:
+						case adUnsignedBigInt:
+						case adUnsignedInt:
+						case adUnsignedSmallInt:
+						case adUnsignedTinyInt:
+							{
+								row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
+								break;
+							}
+						case adCurrency:
+						case adDouble:
+						case adNumeric:
+						case adSingle:
+							{
+								row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
+								break;
+							}
+						case adBoolean:   //布尔型  
+							{
+								row.setData(i,YData((bool)pRs->Fields->GetItem(i)->GetValue()));
+								break;
+							}
+						default:
+							{
+								YData data;
+								data.setNull();
+								row.setData(i,data);
+								break;
+							}
+						}
+					}
+					else
+					{
+						YData data;
+						data.setNull();
+						row.setData(i,data);
+					}
+				}
+
+				table->addRow(row);
+				pRs->MoveNext();
+			}
 		}
+
+		pRs->Close();
+		//pRs->Release();
+
+		return table;
 	}
-
-	pRs->Close();
-	//pRs->Release();
-
-	return table;
+	catch(_com_error er)
+	{
+		*this->_errorText =  "执行失败！";
+		return NULL;
+	}
 }
 
 bool YSqlServerDataBase::executeSqlWithOutDt(const std::string & sql)
