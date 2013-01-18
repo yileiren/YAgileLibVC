@@ -156,8 +156,8 @@ void CTestMFCDlg::OnBnClickedOk()
 				}
 				else
 				{
-					var.Format(_T("%f,"),table->getData(i,3)->toDouble());
-					str += var;
+					YLR::YData sData(*table->getData(i,3));
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,4)->isNull())
@@ -167,7 +167,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,4));
-					str += CString(sData.toString()->c_str());
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,5)->isNull())
@@ -177,8 +177,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,5));
-					var.Format(_T("%s,"),sData.toString()->c_str());
-					str += var;
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,6)->isNull())
@@ -188,8 +187,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,6));
-					var.Format(_T("%s,"),sData.toString()->c_str());
-					str += var;
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,7)->isNull())
@@ -199,8 +197,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,7));
-					var.Format(_T("%s,"),sData.toString()->c_str());
-					str += var;
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,8)->isNull())
@@ -210,8 +207,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,8));
-					var.Format(_T("%s,"),sData.toString()->c_str());
-					str += var;
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,9)->isNull())
@@ -221,8 +217,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,9));
-					var.Format(_T("%s,"),sData.toString()->c_str());
-					str += var;
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				if(table->getData(i,10)->isNull())
@@ -232,8 +227,7 @@ void CTestMFCDlg::OnBnClickedOk()
 				else
 				{
 					YLR::YData sData(*table->getData(i,10));
-					var.Format(_T("%s,"),sData.toString()->c_str());
-					str += var;
+					str += CString(sData.toString()->c_str()) + _T(",");
 				}
 
 				AfxMessageBox(str);

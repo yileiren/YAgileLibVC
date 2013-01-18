@@ -69,12 +69,27 @@ YData::YData(const float &d) :
 YData::YData(const std::string &d) :
 	str(NULL)
 {
+	//判断C穿长度
+	int i = 0;
+	const char * p = d.c_str();
+	while(*p != NULL)
+	{
+		i++;
+		p++;
+	}
 	//设置存储空间
-	this->setSize(sizeof(d));
+	this->setSize(i + 1);
 
 	//复制数据
 	YBYTE * buf = new YBYTE[this->getSize()];
-	memcpy(buf,&d,this->getSize());
+	i = 0;
+	p = d.c_str();
+	while(*(p + i) != NULL)
+	{
+		buf[i] = p[i];
+		i++;
+	}
+	buf[i] = '\0';
 	this->setData(buf,this->getSize());
 	delete[] buf;
 	this->_type = YData::YString;
