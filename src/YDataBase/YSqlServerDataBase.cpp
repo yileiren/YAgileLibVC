@@ -321,10 +321,6 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 								break;
 							}
 						case adBoolean:   //²¼¶ûÐÍ  
-							{
-								row.setData(i,YData((bool)pRs->Fields->GetItem(i)->GetValue()));
-								break;
-							}
 						default:
 							{
 								YData data;

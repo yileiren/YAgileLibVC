@@ -11,7 +11,8 @@ YData::YData() :
 {
 }
 
-YData::YData(const bool &b)
+YData::YData(const bool &b) :
+	str(NULL)
 {
 	//ÉèÖÃ´æ´¢¿Õ¼ä
 	this->setSize(sizeof(b));
@@ -211,6 +212,92 @@ void YData::setFrom(const std::string &d)
 	this->_type = YData::YString;
 }
 
+bool YData::toBool() const
+{
+	bool data = 0;
+
+	switch(this->_type)
+	{
+	case YData::YBool:
+		{
+			YBYTE * buf = new YBYTE[sizeof(bool)];
+			this->getData(buf,sizeof(bool));
+			memcpy(&data,buf,sizeof(bool));
+			delete[] buf;
+			break;
+		}
+	case YData::YInt:
+		{
+			int i;
+			YBYTE * buf = new YBYTE[sizeof(int)];
+			this->getData(buf,sizeof(int));
+			memcpy(&i,buf,sizeof(int));
+			delete[] buf;
+			if(i == 0)
+			{
+				data = false;
+			}
+			else
+			{
+				data = true;
+			}
+			break;
+		}
+	case YData::YDouble:
+		{
+			YBYTE * buf = new YBYTE[sizeof(double)];
+			this->getData(buf,sizeof(double));
+			double d = 0;
+			memcpy(&d,buf,sizeof(double));
+			delete[] buf;
+
+			if(d == 0.0)
+			{
+				data = false;
+			}
+			else
+			{
+				data = true;
+			}
+			break;
+		}
+	case YData::YFloat:
+		{
+			YBYTE * buf = new YBYTE[sizeof(float)];
+			this->getData(buf,sizeof(float));
+			float d = 0;
+			memcpy(&d,buf,sizeof(float));
+			delete[] buf;
+			if(d == 0.0)
+			{
+				data = false;
+			}
+			else
+			{
+				data = true;
+			}
+			break;
+		}
+	case YData::YString:
+		{
+			YBYTE * buf = new YBYTE[this->getSize()];
+			this->getData(buf,this->getSize());
+
+			if(std::string((char *)buf) == "false")
+			{
+				data = false;
+			}
+			else
+			{
+				data = true;
+			}
+			delete[] buf;
+		}
+	}
+
+	return data;
+}
+
 int YData::toInt() const
 {
 	int data = 0;
@@ -232,6 +319,7 @@ int YData::toInt() const
 			{
 				data = 0;
 			}
+			break;
 		}
 	case YData::YInt:
 		{
@@ -294,6 +382,7 @@ double YData::toDouble() const
 			{
 				data = 0.0;
 			}
+			break;
 		}
 	case YData::YInt:
 		{
@@ -356,6 +445,7 @@ float YData::toFloat() const
 			{
 				data = 0.0;
 			}
+			break;
 		}
 	case YData::YInt:
 		{
@@ -422,6 +512,7 @@ const std::string * YData::toString()
 			{
 				*this->str = "false";
 			}
+			break;
 		}
 	case YData::YInt:
 		{

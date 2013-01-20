@@ -14,6 +14,7 @@
 #include "../include/YSerialPort/YSerialPort.h"
 
 #include "../include/YDataBase/YSqlServerDataBase.h"
+#include "../include/YDataBase/YAccessDataBase.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -106,128 +107,99 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 void CTestMFCDlg::OnBnClickedOk()
 {
 	
-	YLR::YSqlServerDataBase d1;
-	d1.setDataBaseName("Test");
-	d1.setUserPassword("123456");
-	d1.setExample("MSSQLSERVER");
+	YLR::YAccessDataBase d1;
+	d1.setFilePath("D:/DataBase/Database1.mdb");
+	d1.setPassword("test");
+
 	if(d1.connectDataBase())
 	{
 		AfxMessageBox(_T("OK"));
-		const YLR::YDataTable *table = d1.executeSqlReturnDt("SELECT * FROM tb_testAdo");
+		const YLR::YDataTable *table = d1.executeSqlReturnDt("SELECT * FROM tb_test");
 		if(table != NULL)
 		{
 			for(int i = 0;i < table->getRowCount();i++)
 			{
-				CString str,var;
-				str = "";
+				CString str = _T("");;
 				if(table->getData(i,0)->isNull())
 				{
-					str += "NULL,";
+					str += "NULL";
 				}
 				else
 				{
-					var.Format(_T("%d,"),table->getData(i,0)->toInt());
-					str += var;
+					CString ss;
+					ss.Format(_T("%d"),table->getData(i,0)->toInt());
+					str += ss;
 				}
 
 				if(table->getData(i,1)->isNull())
 				{
-					str += "NULL,";
+					str += ",NULL";
 				}
 				else
 				{
-					var.Format(_T("%f,"),table->getData(i,1)->toDouble());
-					str += var;
+					YLR::YData data = YLR::YData(*table->getData(i,1));
+					
+					str += _T(",") + CString(data.toString()->c_str());
 				}
 
 				if(table->getData(i,2)->isNull())
 				{
-					str += "NULL,";
+					str += ",NULL";
 				}
 				else
 				{
-					var.Format(_T("%f,"),table->getData(i,2)->toDouble());
-					str += var;
+					YLR::YData data = YLR::YData(*table->getData(i,2));
+					
+					str += _T(",") + CString(data.toString()->c_str());
 				}
 
 				if(table->getData(i,3)->isNull())
 				{
-					str += "NULL,";
+					str += ",NULL";
 				}
 				else
 				{
-					YLR::YData sData(*table->getData(i,3));
-					str += CString(sData.toString()->c_str()) + _T(",");
+					YLR::YData data = YLR::YData(*table->getData(i,3));
+					
+					str += _T(",") + CString(data.toString()->c_str());
 				}
 
 				if(table->getData(i,4)->isNull())
 				{
-					str += "NULL,";
+					str += ",NULL";
 				}
 				else
 				{
-					YLR::YData sData(*table->getData(i,4));
-					str += CString(sData.toString()->c_str()) + _T(",");
+					CString ss;
+					ss.Format(_T(",%f"),table->getData(i,4)->toDouble());
+					str += ss;
 				}
 
 				if(table->getData(i,5)->isNull())
 				{
-					str += "NULL,";
+					str += ",NULL";
 				}
 				else
 				{
-					YLR::YData sData(*table->getData(i,5));
-					str += CString(sData.toString()->c_str()) + _T(",");
+					CString ss;
+					ss.Format(_T(",%d"),table->getData(i,5)->toInt());
+					str += ss;
 				}
 
 				if(table->getData(i,6)->isNull())
 				{
-					str += "NULL,";
+					str += ",NULL";
 				}
 				else
 				{
-					YLR::YData sData(*table->getData(i,6));
-					str += CString(sData.toString()->c_str()) + _T(",");
-				}
-
-				if(table->getData(i,7)->isNull())
-				{
-					str += "NULL,";
-				}
-				else
-				{
-					YLR::YData sData(*table->getData(i,7));
-					str += CString(sData.toString()->c_str()) + _T(",");
-				}
-
-				if(table->getData(i,8)->isNull())
-				{
-					str += "NULL,";
-				}
-				else
-				{
-					YLR::YData sData(*table->getData(i,8));
-					str += CString(sData.toString()->c_str()) + _T(",");
-				}
-
-				if(table->getData(i,9)->isNull())
-				{
-					str += "NULL,";
-				}
-				else
-				{
-					YLR::YData sData(*table->getData(i,9));
-					str += CString(sData.toString()->c_str()) + _T(",");
-				}
-
-				if(table->getData(i,10)->isNull())
-				{
-					str += "NULL,";
-				}
-				else
-				{
-					YLR::YData sData(*table->getData(i,10));
-					str += CString(sData.toString()->c_str()) + _T(",");
+					if(table->getData(i,6)->toBool())
+					{
+						str += _T(",true");
+					}
+					else
+					{
+						str += _T(",false");
+					}
 				}
 
 				AfxMessageBox(str);
@@ -236,7 +208,7 @@ void CTestMFCDlg::OnBnClickedOk()
 			YLR::YDataInterface::releaseDataTable(table);
 		}
 		d1.beginTransaction();
-		d1.executeSqlWithOutDt("INSERT INTO tb_testAdo (num1) VALUES (70.23)");
+		d1.executeSqlWithOutDt("INSERT INTO tb_test (num1) VALUES (70.23)");
 		d1.rollbackTransaction();
 		d1.disconnectDataBase();
 	}
