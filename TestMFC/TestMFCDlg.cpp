@@ -14,6 +14,7 @@
 #include "../include/YSerialPort/YSerialPort.h"
 
 #include "../include/YDataBase/YSqlServerDataBase.h"
+#include "../include/YDataBase/YSQLiteDataBase.h"
 #include "../include/YDataBase/YAccessDataBase.h"
 
 #ifdef _DEBUG
@@ -107,9 +108,8 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 void CTestMFCDlg::OnBnClickedOk()
 {
 	
-	YLR::YAccessDataBase d1;
-	d1.setFilePath("D:/DataBase/Database1.mdb");
-	d1.setPassword("test");
+	YLR::YSQLiteDataBase d1;
+	d1.setFilePath("D:/SQLiteDB.db");
 
 	if(d1.connectDataBase())
 	{
@@ -159,47 +159,9 @@ void CTestMFCDlg::OnBnClickedOk()
 				}
 				else
 				{
-					YLR::YData data = YLR::YData(*table->getData(i,3));
-					
-					str += _T(",") + CString(data.toString()->c_str());
-				}
-
-				if(table->getData(i,4)->isNull())
-				{
-					str += ",NULL";
-				}
-				else
-				{
 					CString ss;
-					ss.Format(_T(",%f"),table->getData(i,4)->toDouble());
+					ss.Format(_T(",%f"),table->getData(i,3)->toDouble());
 					str += ss;
-				}
-
-				if(table->getData(i,5)->isNull())
-				{
-					str += ",NULL";
-				}
-				else
-				{
-					CString ss;
-					ss.Format(_T(",%d"),table->getData(i,5)->toInt());
-					str += ss;
-				}
-
-				if(table->getData(i,6)->isNull())
-				{
-					str += ",NULL";
-				}
-				else
-				{
-					if(table->getData(i,6)->toBool())
-					{
-						str += _T(",true");
-					}
-					else
-					{
-						str += _T(",false");
-					}
 				}
 
 				AfxMessageBox(str);
@@ -207,9 +169,9 @@ void CTestMFCDlg::OnBnClickedOk()
 			
 			YLR::YDataInterface::releaseDataTable(table);
 		}
-		d1.beginTransaction();
-		d1.executeSqlWithOutDt("INSERT INTO tb_test (num1) VALUES (70.23)");
-		d1.rollbackTransaction();
+		//d1.beginTransaction();
+		d1.executeSqlWithOutDt("INSERT INTO tb_test (text1) VALUES ('ÄãºÃ')");
+		//d1.rollbackTransaction();
 		d1.disconnectDataBase();
 	}
 }

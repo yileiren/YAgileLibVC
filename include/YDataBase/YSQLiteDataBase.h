@@ -11,7 +11,7 @@ namespace YLR
 	 * SQLite数据库访问类。
 	 * 作者：董帅 创建时间：2013-1-21 13:16:46
 	 */
-	class YSQLiteDataBase : public  YDataInterface
+	class YDATABASE_API YSQLiteDataBase : public  YDataInterface
 	{
 	public:
 		/*!
@@ -131,24 +131,24 @@ namespace YLR
 		/*!
 		 * \brief
 		 * 实行SQL语句，返回数据，使用结束注意释放数据。
-		 * 作者：董帅 创建时间：2013-1-7 16:11:02
+		 * 作者：董帅 创建时间：2013-1-21 14:26:15
 		 *
 		 * \param sql 要执行的SQL语句。
 		 *
 		 * \return 返回数据，失败返回NULL，返回的数据集使用YLR::YDataInterface::releaseDataTable方法释放。
 		 */
-		virtual const YDataTable * executeSqlReturnDt(const std::string & sql)  = 0;
+		virtual const YDataTable * executeSqlReturnDt(const std::string & sql);
 
 		/*!
 		 * \brief
 		 * 执行没有数据返回的sql语句。
-		 * 作者：董帅 创建时间：2013-1-7 16:13:18
+		 * 作者：董帅 创建时间：2013-1-21 15:11:43
 		 *
 		 * \param sql 要执行的SQL语句。
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		virtual bool executeSqlWithOutDt(const std::string & sql)  = 0;
+		virtual bool executeSqlWithOutDt(const std::string & sql);
 	private:
 		YDataInterface::DataBaseType _databaseType; /*!< 数据库类型。 */
 		YDataInterface::ConnectState _connectState; /*!< 连接类型。 */
