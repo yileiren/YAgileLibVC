@@ -60,6 +60,9 @@
     <ClInclude Include="..\include\YDataBase\YAccessDataBase.h">
       <Filter>头文件\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\YDataBase\YSQLiteDataBase.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -81,6 +84,9 @@
       <Filter>源文件\src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\YDataBase\YAccessDataBase.cpp">
+      <Filter>源文件\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\YDataBase\YSQLiteDataBase.cpp">
       <Filter>源文件\src</Filter>
     </ClCompile>
   </ItemGroup>
