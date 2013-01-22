@@ -1,4 +1,5 @@
 #include "../../include/YDataBase/YSQLiteDataBase.h"
+#include "../../include/YDataType/YTextEncode.h"
 
 using namespace YLR;
 
@@ -187,7 +188,12 @@ const YDataTable * YSQLiteDataBase::executeSqlReturnDt(const std::string & sql)
 					}
 				case SQLITE_TEXT:
 					{
-						row.setData(i,YData(std::string((char *)sqlite3_column_text(stmt,i))));
+						std::string * text = YLR::YTextEncode::utf8ToMultibyte(std::string((char *)sqlite3_column_text(stmt,i)));
+						if(text != NULL)
+						{
+							row.setData(i,YData(*text));
+							YLR::YTextEncode::freeText(text);
+						}
 						break;
 					}
 				case SQLITE_NULL:
@@ -212,13 +218,24 @@ bool YSQLiteDataBase::executeSqlWithOutDt(const std::string & sql)
 {
 	char *zErr;
 
-	int rc = sqlite3_exec(this->_db,sql.c_str(),NULL,NULL,&zErr);
-	if(rc != SQLITE_OK)
+	std::string * utf8Sql = YTextEncode::multibyteToUtf8(sql);
+	if(utf8Sql != NULL)
 	{
-		*this->_errorText = "执行语句失败！||" + std::string(zErr);
-		sqlite3_free(zErr);
+		int rc = sqlite3_exec(this->_db,utf8Sql->c_str(),NULL,NULL,&zErr);
+		YTextEncode::freeText(utf8Sql);
+
+		if(rc != SQLITE_OK)
+		{
+			*this->_errorText = "执行语句失败！||" + std::string(zErr);
+			sqlite3_free(zErr);
+			return false;
+		}
+		else
+			return true;
+	}
+	else
+	{
+		*this->_errorText = "执行语句编码集转换失败（从多字节转换成utf8）！";
 		return false;
 	}
-
-	return true;
 }

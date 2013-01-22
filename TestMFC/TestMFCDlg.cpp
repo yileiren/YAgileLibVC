@@ -170,7 +170,7 @@ void CTestMFCDlg::OnBnClickedOk()
 			YLR::YDataInterface::releaseDataTable(table);
 		}
 		//d1.beginTransaction();
-		d1.executeSqlWithOutDt("INSERT INTO tb_test (text1) VALUES ('ÄãºÃ')");
+		d1.executeSqlWithOutDt("INSERT INTO tb_test (text1) VALUES ('ÄãºÃ34d·ÃÎÊ')");
 		//d1.rollbackTransaction();
 		d1.disconnectDataBase();
 	}
