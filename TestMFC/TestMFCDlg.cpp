@@ -17,6 +17,8 @@
 #include "../include/YDataBase/YSQLiteDataBase.h"
 #include "../include/YDataBase/YAccessDataBase.h"
 
+#include "../include/YCrypto/MD5Encrypt.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -107,71 +109,4 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	
-	YLR::YSQLiteDataBase d1;
-	d1.setFilePath("D:/SQLiteDB.db");
-
-	if(d1.connectDataBase())
-	{
-		AfxMessageBox(_T("OK"));
-		const YLR::YDataTable *table = d1.executeSqlReturnDt("SELECT * FROM tb_test");
-		if(table != NULL)
-		{
-			for(int i = 0;i < table->getRowCount();i++)
-			{
-				CString str = _T("");;
-				if(table->getData(i,0)->isNull())
-				{
-					str += "NULL";
-				}
-				else
-				{
-					CString ss;
-					ss.Format(_T("%d"),table->getData(i,0)->toInt());
-					str += ss;
-				}
-
-				if(table->getData(i,1)->isNull())
-				{
-					str += ",NULL";
-				}
-				else
-				{
-					YLR::YData data = YLR::YData(*table->getData(i,1));
-					
-					str += _T(",") + CString(data.toString()->c_str());
-				}
-
-				if(table->getData(i,2)->isNull())
-				{
-					str += ",NULL";
-				}
-				else
-				{
-					YLR::YData data = YLR::YData(*table->getData(i,2));
-					
-					str += _T(",") + CString(data.toString()->c_str());
-				}
-
-				if(table->getData(i,3)->isNull())
-				{
-					str += ",NULL";
-				}
-				else
-				{
-					CString ss;
-					ss.Format(_T(",%f"),table->getData(i,3)->toDouble());
-					str += ss;
-				}
-
-				AfxMessageBox(str);
-			}
-			
-			YLR::YDataInterface::releaseDataTable(table);
-		}
-		//d1.beginTransaction();
-		d1.executeSqlWithOutDt("INSERT INTO tb_test (text1) VALUES ('ƒ„∫√34d∑√Œ ')");
-		//d1.rollbackTransaction();
-		d1.disconnectDataBase();
-	}
 }
