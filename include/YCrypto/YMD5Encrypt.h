@@ -11,12 +11,38 @@ typedef unsigned int uint32;
 
 namespace YLR
 {
+	/*!
+	 * \brief
+	 * MD5加密算法处理类。
+	 * 作者：董帅 创建时间：2013-2-6 20:58:21
+	 */
 	class YCRYPTO_API YMD5Encrypt
 	{
-	public:  
+	public: 
+		/*!
+		 * \brief
+		 * 默认构造函数。
+		 */
 		YMD5Encrypt();  
 		 
+		/*!
+		 * \brief
+		 * 获取加密字符串。
+		 * 作者：董帅 创建时间：2013-2-6 20:59:19
+		 *
+		 * \param s 要加密的字符串。
+		 *
+		 * \return 加密后的字符串（使用freeText方法释放内存）。
+		 */
 		std::string * getMD5(const std::string &s);
+
+		/*!
+		 * \brief
+		 * 释放内存。
+		 * 作者：董帅 创建时间：2013-2-6 21:00:42
+		 *
+		 * \param s 要释放的字符串指针。
+		 */
 		static void freeText(std::string *s);
 	private:  
 		void update(const void *input, size_t length);  
