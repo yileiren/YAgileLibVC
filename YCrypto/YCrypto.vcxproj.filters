@@ -33,7 +33,7 @@
     <ClInclude Include="YCrypto.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\YCrypto\MD5Encrypt.h">
+    <ClInclude Include="..\include\YCrypto\YMD5Encrypt.h">
       <Filter>头文件\include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\YCrypto\MD5Encrypt.cpp">
+    <ClCompile Include="..\src\YCrypto\YMD5Encrypt.cpp">
       <Filter>源文件\src</Filter>
     </ClCompile>
   </ItemGroup>

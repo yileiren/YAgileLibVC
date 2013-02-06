@@ -17,7 +17,7 @@
 #include "../include/YDataBase/YSQLiteDataBase.h"
 #include "../include/YDataBase/YAccessDataBase.h"
 
-#include "../include/YCrypto/MD5Encrypt.h"
+#include "../include/YCrypto/YMD5Encrypt.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -109,4 +109,8 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
+	YLR::YMD5Encrypt md5;
+	std::string *s = md5.getMD5("");
+	AfxMessageBox(CString(s->c_str()));
+	YLR::YMD5Encrypt::freeText(s);
 }

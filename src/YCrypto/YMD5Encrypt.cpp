@@ -1,4 +1,4 @@
-#include "../../include/YCrypto/MD5Encrypt.h"
+#include "../../include/YCrypto/YMD5Encrypt.h"
 
 #include <stdio.h>
 
@@ -59,8 +59,8 @@ Rotation is separate from addition to prevent recomputation.
     (a) += (b); \
 }
 
-const byte MD5Encrypt::PADDING[64] = { 0x80 };  
-const char MD5Encrypt::HEX[16] = {
+const byte YMD5Encrypt::PADDING[64] = { 0x80 };  
+const char YMD5Encrypt::HEX[16] = {
 	'0', '1', '2', '3',  
     '4', '5', '6', '7',  
     '8', '9', 'a', 'b',  
@@ -68,17 +68,11 @@ const char MD5Encrypt::HEX[16] = {
 };
 
 /* Default construct. */  
-MD5Encrypt::MD5Encrypt() {  
+YMD5Encrypt::YMD5Encrypt() {  
     reset();  
-}  
+}
   
-/* Construct a MD5 object with a input buffer. */  
-MD5Encrypt::MD5Encrypt(const void *input, size_t length) {  
-    reset();  
-    update(input, length);  
-}  
-  
-const byte* MD5Encrypt::digest() {  
+const byte* YMD5Encrypt::digest() {  
     if (!_finished) {  
         _finished = true;  
         final();  
@@ -87,7 +81,7 @@ const byte* MD5Encrypt::digest() {
 }  
   
 /* Reset the calculate state */  
-void MD5Encrypt::reset() {  
+void YMD5Encrypt::reset() {  
   
     _finished = false;  
     /* reset number of bits. */  
@@ -100,11 +94,11 @@ void MD5Encrypt::reset() {
 }  
   
 /* Updating the context with a input buffer. */  
-void MD5Encrypt::update(const void *input, size_t length) {  
+void YMD5Encrypt::update(const void *input, size_t length) {  
     update((const byte*)input, length);  
 }  
   
-void MD5Encrypt::update(const byte *input, size_t length) {  
+void YMD5Encrypt::update(const byte *input, size_t length) {  
   
     uint32 i, index, partLen;  
   
@@ -141,7 +135,7 @@ void MD5Encrypt::update(const byte *input, size_t length) {
 /* MD5 finalization. Ends an MD5 message-_digest operation, writing the 
 the message _digest and zeroizing the context. 
 */  
-void MD5Encrypt::final() {  
+void YMD5Encrypt::final() {  
   
     byte bits[8];  
     uint32 oldState[4];  
@@ -172,7 +166,7 @@ void MD5Encrypt::final() {
 }  
   
 /* MD5 basic transformation. Transforms _state based on block. */  
-void MD5Encrypt::transform(const byte block[64]) {  
+void YMD5Encrypt::transform(const byte block[64]) {  
   
     uint32 a = _state[0], b = _state[1], c = _state[2], d = _state[3], x[16];  
   
@@ -259,7 +253,7 @@ void MD5Encrypt::transform(const byte block[64]) {
 /* Encodes input (ulong) into output (byte). Assumes length is 
 a multiple of 4. 
 */  
-void MD5Encrypt::encode(const uint32 *input, byte *output, size_t length) {  
+void YMD5Encrypt::encode(const uint32 *input, byte *output, size_t length) {  
   
     for(size_t i=0, j=0; j<length; i++, j+=4) {  
         output[j]= (byte)(input[i] & 0xff);  
@@ -272,7 +266,7 @@ void MD5Encrypt::encode(const uint32 *input, byte *output, size_t length) {
 /* Decodes input (byte) into output (ulong). Assumes length is 
 a multiple of 4. 
 */  
-void MD5Encrypt::decode(const byte *input, uint32 *output, size_t length) {  
+void YMD5Encrypt::decode(const byte *input, uint32 *output, size_t length) {  
   
     for(size_t i=0, j=0; j<length; i++, j+=4) {    
         output[i] = ((uint32)input[j]) | (((uint32)input[j+1]) << 8) |  
@@ -281,21 +275,33 @@ void MD5Encrypt::decode(const byte *input, uint32 *output, size_t length) {
 }  
   
 /* Convert byte array to hex string. */  
-string MD5Encrypt::bytesToHexString(const byte *input, size_t length)
+std::string * YMD5Encrypt::bytesToHexString(const byte *input, size_t length)
 {  
-    std::string str;  
-    str.reserve(length << 1);  
+	std::string *str = new std::string();  
+    str->reserve(length << 1);  
     for(size_t i = 0; i < length; i++) {  
         int t = input[i];  
         int a = t / 16;  
         int b = t % 16;  
-        str.append(1, HEX[a]);  
-        str.append(1, HEX[b]);  
+        str->append(1, HEX[a]);  
+        str->append(1, HEX[b]);  
     }  
     return str;  
 }  
   
 /* Convert digest to string value */  
-string MD5Encrypt::toString() {  
+std::string * YMD5Encrypt::toString() 
+{  
     return bytesToHexString(digest(), 16);  
 }  
+
+std::string * YMD5Encrypt::getMD5(const std::string &s)
+{
+	this->update(s.c_str(),s.length());
+	return this->toString();
+}
+
+void YMD5Encrypt::freeText(std::string *s)
+{
+	delete s;
+}

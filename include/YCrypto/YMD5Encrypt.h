@@ -11,26 +11,24 @@ typedef unsigned int uint32;
 
 namespace YLR
 {
-	class YCRYPTO_API MD5Encrypt
+	class YCRYPTO_API YMD5Encrypt
 	{
 	public:  
-		MD5Encrypt();  
-		MD5Encrypt(const void *input, size_t length);  
-		void update(const void *input, size_t length);  
-		const byte* digest();  
-		string toString();  
-		void reset();  
+		YMD5Encrypt();  
+		 
+		std::string * getMD5(const std::string &s);
+		static void freeText(std::string *s);
 	private:  
+		void update(const void *input, size_t length);  
+		std::string * toString(); 
+		const byte* digest();
+		void reset();
 		void update(const byte *input, size_t length);  
 		void final();  
 		void transform(const byte block[64]);  
 		void encode(const uint32 *input, byte *output, size_t length);  
 		void decode(const byte *input, uint32 *output, size_t length);  
-		string bytesToHexString(const byte *input, size_t length);  
-  
-		/* class uncopyable */  
-		MD5Encrypt(const MD5&);  
-		MD5Encrypt& operator=(const MD5&);  
+		std::string * bytesToHexString(const byte *input, size_t length); 
 	private:  
 		uint32 _state[4];   /* state (ABCD) */  
 		uint32 _count[2];   /* number of bits, modulo 2^64 (low-order word first) */  
