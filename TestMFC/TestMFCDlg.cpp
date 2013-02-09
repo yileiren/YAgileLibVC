@@ -19,6 +19,8 @@
 
 #include "../include/YCrypto/YMD5Encrypt.h"
 
+#include "../include/YSystem/YMachineInfo.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -109,8 +111,7 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	YLR::YMD5Encrypt md5;
-	std::string *s = md5.getMD5("");
+	std::string *s = YLR::YMachineInfo::getCpuID();
 	AfxMessageBox(CString(s->c_str()));
-	YLR::YMD5Encrypt::freeText(s);
+	YLR::YMachineInfo::freeText(s);
 }
