@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YCrypto", "YCrypto\YCrypto.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YSystem", "YSystem\YSystem.vcxproj", "{3D579697-CBA7-4001-A7B4-712E09A4C9E9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetwork", "YNetwork\YNetwork.vcxproj", "{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -68,6 +70,10 @@ Global
 		{3D579697-CBA7-4001-A7B4-712E09A4C9E9}.Debug|Win32.Build.0 = Debug|Win32
 		{3D579697-CBA7-4001-A7B4-712E09A4C9E9}.Release|Win32.ActiveCfg = Release|Win32
 		{3D579697-CBA7-4001-A7B4-712E09A4C9E9}.Release|Win32.Build.0 = Release|Win32
+		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Debug|Win32.Build.0 = Debug|Win32
+		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Release|Win32.ActiveCfg = Release|Win32
+		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
