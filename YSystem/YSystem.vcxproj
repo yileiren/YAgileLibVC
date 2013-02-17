@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\YSystem\YMachineInfo.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="YSystem.h" />
@@ -98,6 +99,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="YSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="YSystem.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
