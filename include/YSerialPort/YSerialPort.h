@@ -11,7 +11,12 @@
 
 namespace YLR
 {
-
+/*!
+ * \brief
+ * ´®¿Ú²Ù×÷·â×°¡£
+ */
+namespace YSerialInterface
+{
 
 	/*!
 	 * \brief 
@@ -111,5 +116,6 @@ namespace YLR
 		*/
 		int receiveDate(unsigned char * data, const int & count);
 	};
-};
+}
+}
 #endif

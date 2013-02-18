@@ -7,6 +7,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 封装一些常用的数据类型和数据类型的操作。
+ */
+namespace YDataType
+{
 	/*!
 	 * \brief
 	 * 编码集转换处理类。
@@ -100,5 +106,5 @@ namespace YLR
 		static std::string * multibyteToUtf8(const std::string & text);
 	};
 }
-
+}
 #endif

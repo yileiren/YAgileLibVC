@@ -8,6 +8,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 	/*!
 	 * \brief
 	 * 数据行类型封装。
@@ -110,7 +116,7 @@ namespace YLR
 		 *
 		 * \return 数据指针，失败返回NULL。
 		 */
-		const YData * getData(const int & index) const;
+		const YDataType::YData * getData(const int & index) const;
 
 		/*!
 		 * \brief
@@ -121,7 +127,7 @@ namespace YLR
 		 *
 		 * \return 数据指针，失败返回NULL。
 		 */
-		const YData * getData(const std::string & physicaName) const;
+		const YDataType::YData * getData(const std::string & physicaName) const;
 
 		/*!
 		 * \brief
@@ -131,7 +137,7 @@ namespace YLR
 		 * \param index 索引位置，从0开始。
 		 * \param data 数据。
 		 */
-		void setData(const int & index, const YData & data);
+		void setData(const int & index, const YDataType::YData & data);
 
 		/*!
 		 * \brief
@@ -141,12 +147,13 @@ namespace YLR
 		 * \param physicaName 逻辑名称。
 		 * \param data 数据。
 		 */
-		void setData(const std::string & physicaName, const YData & data);
+		void setData(const std::string & physicaName, const YDataType::YData & data);
 	protected:
 		std::vector<YColumn> * _columns; /*!< 列字段列表。 */
     
-		std::vector<YData> * _datas; /*!< 数据列表。 */
+		std::vector<YDataType::YData> * _datas; /*!< 数据列表。 */
 	};
-};
+}
+}
 
 #endif

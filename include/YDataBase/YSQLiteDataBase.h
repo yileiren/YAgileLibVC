@@ -6,6 +6,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 	/*!
 	 * \brief
 	 * SQLite数据库访问类。
@@ -158,6 +164,7 @@ namespace YLR
 		sqlite3 * _db; /*!< 数据库指针。 */
 		std::string * _errorText; /*!< 错误信息。 */
 	};
+}
 }
 
 #endif

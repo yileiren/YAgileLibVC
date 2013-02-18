@@ -4,6 +4,7 @@
 #include <sstream>
 
 using namespace YLR;
+using namespace YDataType;
 
 YData::YData() :
 	_type(YData::YInt),

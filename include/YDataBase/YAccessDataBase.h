@@ -4,7 +4,17 @@
 #include "YDataInterface.h"
 #include "ado\MSAdo.h"
 
+/*!
+ * \brief
+ * 异类人VC敏捷开发库。
+ */
 namespace YLR
+{
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
 {
 	class YDATABASE_API YAccessDataBase : public YDataInterface
 	{
@@ -177,5 +187,5 @@ namespace YLR
 		_ConnectionPtr *_connection; /*!< ado数据库连接对象。 */
 	};
 }
-
+}
 #endif

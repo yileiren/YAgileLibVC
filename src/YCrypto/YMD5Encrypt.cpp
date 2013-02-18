@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 using namespace YLR;
+using namespace YCrypto;
 
 /* Constants for MD5Transform routine. */  
 #define S11 7  

@@ -8,7 +8,18 @@
 
 #include "../YDataType/YByteType.h"
 
+/*!
+ * \brief
+ * 异类人VC敏捷开发库。
+ */
 namespace YLR
+{
+
+/*!
+ * \brief
+ * 网络操作类库。
+ */
+namespace YNetWork
 {
 	/*!
 	 * \brief
@@ -111,8 +122,9 @@ namespace YLR
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		static bool sendData(SOCKET s,const YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
+		static bool sendData(SOCKET s,const YDataType::YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
 	};
+}
 }
 
 #endif

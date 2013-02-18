@@ -8,6 +8,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 	/*!
 	 * \brief
 	 * 数据字段。
@@ -32,7 +38,7 @@ namespace YLR
 		 * \param logicalName 逻辑名称
 		 * \param dataType 数据类型
 		 */
-		YColumn(const std::string & physicaName, const std::string & logicalName, const YData::DataType & dataType);
+		YColumn(const std::string & physicaName, const std::string & logicalName, const YDataType::YData::DataType & dataType);
 
 		/*!
 		 * \brief
@@ -102,5 +108,6 @@ namespace YLR
 	
 		std::string * _logicalName; /*!<字段逻辑名称。 */
 	};
+}
 }
 #endif 

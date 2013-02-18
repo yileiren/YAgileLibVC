@@ -18,6 +18,12 @@ namespace YLR
 {
 /*!
  * \brief
+ * 封装一些常用的数据类型和数据类型的操作。
+ */
+namespace YDataType
+{
+/*!
+ * \brief
  * 二进制操作类，使用Win32项目创建DLL，在工程中引用。程序中所有代码均使用标准C++，方便今后项目移植。
  * 版本：v0.1.0 作者：董帅 创建时间：2011-11-22 10:56
  */
@@ -144,5 +150,6 @@ protected:
 //template class YBYTETYPE_API std::allocator<std::_List_nod<YByteType,std::allocator<YByteType> >::_Node>;
 //template class YBYTETYPE_API std::list<YByteType,std::allocator<YByteType>>;
 
-};
+}
+}
 #endif

@@ -8,6 +8,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 	/*!
 	 * \brief
 	 * 数据表类型封装。 
@@ -169,7 +175,7 @@ namespace YLR
 		 * 
 		 * \return 数据指针。
 		 */
-		const YData * getData(const int & rowIndex, const int & columnIndex) const;
+		const YDataType::YData * getData(const int & rowIndex, const int & columnIndex) const;
 
 		/*!
 		 * \brief
@@ -181,7 +187,7 @@ namespace YLR
 		 * 
 		 * \return 数据指针。
 		 */
-		const YData * getData(const int & rowIndex, const std::string & physicaName) const;
+		const YDataType::YData * getData(const int & rowIndex, const std::string & physicaName) const;
 
 		/*!
 		 * \brief
@@ -192,7 +198,7 @@ namespace YLR
 		 * \param columnIndex 列索引值。
 		 * \param data 数据。
 		 */
-		void setData(const int & rowIndex, const int & columnIndex, const YData & data);
+		void setData(const int & rowIndex, const int & columnIndex, const YDataType::YData & data);
 
 		/*!
 		 * \brief
@@ -203,11 +209,12 @@ namespace YLR
 		 * \param physicaName 列逻辑名称。
 		 * \param data 数据。
 		 */
-		void setData(const int & rowIndex, const std::string & physicaName, const YData & data);
+		void setData(const int & rowIndex, const std::string & physicaName, const YDataType::YData & data);
 	protected:
 		std::vector<YColumn> * _columns; /*!< 数据列。 */
 		std::vector<YDataRow> * _rows; /*!< 数据行。 */
 	};
+}
 }
 
 #endif

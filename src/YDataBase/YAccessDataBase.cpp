@@ -1,6 +1,7 @@
 #include "../../include/YDataBase/YAccessDataBase.h"
 
 using namespace YLR;
+using namespace YDataBase;
 
 YAccessDataBase::YAccessDataBase() :
 	_filePath(new std::string("")),
@@ -226,7 +227,7 @@ const YDataTable * YAccessDataBase::executeSqlReturnDt(const std::string & sql)
 									s = ret;
 								}
 
-								row.setData(i,YData(s));
+								row.setData(i,YDataType::YData(s));
 								break;
 							}
 						case adBigInt:
@@ -237,7 +238,7 @@ const YDataTable * YAccessDataBase::executeSqlReturnDt(const std::string & sql)
 						case adUnsignedSmallInt:
 						case adUnsignedTinyInt:
 							{
-								row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
+								row.setData(i,YDataType::YData((int)pRs->Fields->GetItem(i)->GetValue()));
 								break;
 							}
 						case adCurrency:
@@ -245,7 +246,7 @@ const YDataTable * YAccessDataBase::executeSqlReturnDt(const std::string & sql)
 						case adNumeric:
 						case adSingle:
 							{
-								row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
+								row.setData(i,YDataType::YData((double)pRs->Fields->GetItem(i)->GetValue()));
 								break;
 							}
 						case adBoolean:   //²¼¶ûÐÍ  
@@ -253,17 +254,17 @@ const YDataTable * YAccessDataBase::executeSqlReturnDt(const std::string & sql)
 								int bInt = (int)pRs->Fields->GetItem(i)->Value;
 								if(bInt != 0)
 								{
-									row.setData(i,YData(true));
+									row.setData(i,YDataType::YData(true));
 								}
 								else
 								{
-									row.setData(i,YData(false));
+									row.setData(i,YDataType::YData(false));
 								}
 								break;
 							}
 						default:
 							{
-								YData data;
+								YDataType::YData data;
 								data.setNull();
 								row.setData(i,data);
 								break;
@@ -272,7 +273,7 @@ const YDataTable * YAccessDataBase::executeSqlReturnDt(const std::string & sql)
 					}
 					else
 					{
-						YData data;
+						YDataType::YData data;
 						data.setNull();
 						row.setData(i,data);
 					}

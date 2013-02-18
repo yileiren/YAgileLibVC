@@ -1,10 +1,11 @@
 #include "../../include/YDataBase/YDataRow.h"
 
 using namespace YLR;
+using namespace YDataBase;
 
 YDataRow::YDataRow() :
 	_columns(new std::vector<YColumn>()),
-	_datas(new std::vector<YData>)
+	_datas(new std::vector<YDataType::YData>)
 {
 }
 
@@ -16,8 +17,8 @@ YDataRow::YDataRow(const YDataRow & item)
 		this->_columns->push_back(item._columns->at(s));
 	}
 
-	this->_datas = new std::vector<YData>();
-	for(std::vector<YData>::size_type s = 0;s < item._datas->size();s++)
+	this->_datas = new std::vector<YDataType::YData>();
+	for(std::vector<YDataType::YData>::size_type s = 0;s < item._datas->size();s++)
 	{
 		this->_datas->push_back(item._datas->at(s));
 	}
@@ -38,7 +39,7 @@ YDataRow & YDataRow::operator=(const YDataRow & item)
 	}
 
 	this->_datas->clear();
-	for(std::vector<YData>::size_type s = 0;s < item._datas->size();s++)
+	for(std::vector<YDataType::YData>::size_type s = 0;s < item._datas->size();s++)
 	{
 		this->_datas->push_back(item._datas->at(s));
 	}
@@ -48,7 +49,7 @@ YDataRow & YDataRow::operator=(const YDataRow & item)
 void YDataRow::addColumn(const YColumn & column)
 {
 	this->_columns->push_back(column); //添加列。
-	this->_datas->push_back(YData()); //添加数据。
+	this->_datas->push_back(YDataType::YData()); //添加数据。
 }
 
 void YDataRow::insertColumn(const int & index, const YColumn & column)
@@ -57,7 +58,7 @@ void YDataRow::insertColumn(const int & index, const YColumn & column)
 	if(index < (int)this->_columns->size())
 	{
 		this->_columns->push_back(YColumn()); //在行末尾新增一个空列。
-		this->_datas->push_back(YData()); //在行末尾新增一个空数据。
+		this->_datas->push_back(YDataType::YData()); //在行末尾新增一个空数据。
 		for(std::vector<YColumn>::size_type s = this->_columns->size() - 1;s > (std::vector<YColumn>::size_type)index;s--)
 		{
 			this->_columns->at(s) = this->_columns->at(s - 1);
@@ -65,7 +66,7 @@ void YDataRow::insertColumn(const int & index, const YColumn & column)
 		}
 	}
 	this->_columns->at(index) = column;
-	this->_datas->at(index) = YData();
+	this->_datas->at(index) = YDataType::YData();
 }
 
 void YDataRow::removeColumn(const int & index)
@@ -109,7 +110,7 @@ int YDataRow::getColumnCount() const
 	return (int)this->_columns->size();
 }
 
-const YData * YDataRow::getData(const int & index) const
+const YDataType::YData * YDataRow::getData(const int & index) const
 {
 	if(index < (int)this->_columns->size())
 	{
@@ -121,7 +122,7 @@ const YData * YDataRow::getData(const int & index) const
 	}
 }
 
-const YData * YDataRow::getData(const std::string & physicaName) const
+const YDataType::YData * YDataRow::getData(const std::string & physicaName) const
 {
 	for(std::vector<YColumn>::size_type s = 0;s < this->_columns->size();s++)
 	{
@@ -134,7 +135,7 @@ const YData * YDataRow::getData(const std::string & physicaName) const
 	return NULL;
 }
 
-void YDataRow::setData(const int & index, const YData & data)
+void YDataRow::setData(const int & index, const YDataType::YData & data)
 {
 	if(index < (int)this->_columns->size())
 	{
@@ -142,7 +143,7 @@ void YDataRow::setData(const int & index, const YData & data)
 	}
 }
 
-void YDataRow::setData(const std::string & physicaName, const YData & data)
+void YDataRow::setData(const std::string & physicaName, const YDataType::YData & data)
 {
 	for(std::vector<YColumn>::size_type s = 0;s < this->_columns->size();s++)
 	{

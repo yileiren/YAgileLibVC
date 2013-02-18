@@ -7,6 +7,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 系统信息类库。
+ */
+namespace YSystem
+{
 	class YSYSTEM_API YMachineInfo
 	{
 	public:
@@ -28,6 +34,7 @@ namespace YLR
 		 */
 		static void freeText(std::string * s);
 	};
+}
 }
 
 #endif

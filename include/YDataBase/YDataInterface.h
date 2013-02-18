@@ -8,6 +8,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 	/*!
 	 * \brief
 	 * 数据库连接接口，定义所有数据库连接的标准方法。
@@ -147,5 +153,5 @@ namespace YLR
 		}
 	};
 }
-
+}
 #endif

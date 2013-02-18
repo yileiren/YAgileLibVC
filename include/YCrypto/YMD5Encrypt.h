@@ -9,7 +9,17 @@
 typedef unsigned char byte;  
 typedef unsigned int uint32;
 
+/*!
+ * \brief
+ * 异类人VC敏捷开发库。
+ */
 namespace YLR
+{
+/*!
+ * \brief
+ * 加密解密类库。
+ */
+namespace YCrypto
 {
 	/*!
 	 * \brief
@@ -65,6 +75,7 @@ namespace YLR
 		static const byte PADDING[64];  /* padding for calculate */  
 		static const char HEX[16];  
 	};
+}
 }
 
 #endif

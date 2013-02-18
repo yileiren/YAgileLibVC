@@ -1,6 +1,7 @@
 #include "../../include/YDataBase/YColumn.h"
 
 using namespace YLR;
+using namespace YDataBase;
 
 YColumn::YColumn() :
 	_physicaName(new std::string()),
@@ -9,7 +10,7 @@ YColumn::YColumn() :
 	//初始化数据。
 }
 
-YColumn::YColumn(const std::string & physicaName, const std::string & logicalName, const YData::DataType & dataType)
+YColumn::YColumn(const std::string & physicaName, const std::string & logicalName, const YDataType::YData::DataType & dataType)
 {
 	//使用参数初始化。
 	this->_physicaName = new std::string(physicaName);

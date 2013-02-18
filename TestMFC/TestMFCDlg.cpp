@@ -118,9 +118,9 @@ void CTestMFCDlg::OnBnClickedOk()
 	int err = WSAStartup(wVersionRequested,&wsaData);
 
 	SOCKET s = socket(AF_INET,SOCK_STREAM,0);
-	if(YLR::YConnection::setRcvTimeOut(s,300))
+	if(YLR::YNetWork::YConnection::setRcvTimeOut(s,300))
 	{
-		int t = YLR::YConnection::getRcvTimeOut(s);
+		int t = YLR::YNetWork::YConnection::getRcvTimeOut(s);
 
 		CString str;
 		str.Format(_T("%d"),t);

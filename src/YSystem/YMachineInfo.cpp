@@ -1,6 +1,7 @@
 #include "../../include/YSystem/YMachineInfo.h"
 
 using namespace YLR;
+using namespace YSystem;
 
 std::string * YMachineInfo::getCpuID()
 {

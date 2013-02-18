@@ -1,6 +1,7 @@
 #include "../../include/YDataBase/YSqlServerDataBase.h"
 
 using namespace YLR;
+using namespace YDataBase;
 
 #include <sstream>
 
@@ -298,7 +299,7 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 									s = ret;
 								}
 
-								row.setData(i,YData(s));
+								row.setData(i,YDataType::YData(s));
 								break;
 							}
 						case adBigInt:
@@ -309,7 +310,7 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 						case adUnsignedSmallInt:
 						case adUnsignedTinyInt:
 							{
-								row.setData(i,YData((int)pRs->Fields->GetItem(i)->GetValue()));
+								row.setData(i,YDataType::YData((int)pRs->Fields->GetItem(i)->GetValue()));
 								break;
 							}
 						case adCurrency:
@@ -317,13 +318,13 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 						case adNumeric:
 						case adSingle:
 							{
-								row.setData(i,YData((double)pRs->Fields->GetItem(i)->GetValue()));
+								row.setData(i,YDataType::YData((double)pRs->Fields->GetItem(i)->GetValue()));
 								break;
 							}
 						case adBoolean:   //²¼¶ûÐÍ  
 						default:
 							{
-								YData data;
+								YDataType::YData data;
 								data.setNull();
 								row.setData(i,data);
 								break;
@@ -332,7 +333,7 @@ const YDataTable * YSqlServerDataBase::executeSqlReturnDt(const std::string & sq
 					}
 					else
 					{
-						YData data;
+						YDataType::YData data;
 						data.setNull();
 						row.setData(i,data);
 					}

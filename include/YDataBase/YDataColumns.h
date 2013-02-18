@@ -6,6 +6,12 @@
 
 namespace YLR 
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 /** 
  * \brief
  * 数据表字段接口定义。
@@ -77,6 +83,7 @@ class YDATABASE_API YDataColumns {
 	virtual int getColumnCount() const  = 0;
 };
 
+}
 }
 
 #endif

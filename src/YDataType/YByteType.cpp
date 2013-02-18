@@ -3,6 +3,7 @@
 #include "..\..\include\YDataType\YByteType.h"
 
 using namespace YLR;
+using namespace YDataType;
 
 YByteType::YByteType(const unsigned int &count, const YBYTE * initData)
 	:_data(NULL),_size(0)

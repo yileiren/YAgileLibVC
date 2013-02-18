@@ -1,6 +1,7 @@
 #include "../../include/YDataBase/YDataTable.h"
 
 using namespace YLR;
+using namespace YDataBase;
 
 YDataTable::YDataTable() :
 	_columns(new std::vector<YColumn>()),
@@ -180,7 +181,7 @@ int YDataTable::getRowCount() const
 	return (int)this->_rows->size();
 }
 
-const YData * YDataTable::getData(const int & rowIndex, const int & columnIndex) const
+const YDataType::YData * YDataTable::getData(const int & rowIndex, const int & columnIndex) const
 {
 	if(rowIndex < (int)this->_rows->size())
 	{
@@ -192,7 +193,7 @@ const YData * YDataTable::getData(const int & rowIndex, const int & columnIndex)
 	}
 }
 
-const YData * YDataTable::getData(const int & rowIndex, const std::string & physicaName) const
+const YDataType::YData * YDataTable::getData(const int & rowIndex, const std::string & physicaName) const
 {
 	if(rowIndex < (int)this->_rows->size())
 	{
@@ -204,7 +205,7 @@ const YData * YDataTable::getData(const int & rowIndex, const std::string & phys
 	}
 }
 
-void YDataTable::setData(const int & rowIndex, const int & columnIndex, const YData & data)
+void YDataTable::setData(const int & rowIndex, const int & columnIndex, const YDataType::YData & data)
 {
 	if(rowIndex < (int)this->_rows->size())
 	{
@@ -212,7 +213,7 @@ void YDataTable::setData(const int & rowIndex, const int & columnIndex, const YD
 	}
 }
 
-void YDataTable::setData(const int & rowIndex, const std::string & physicaName, const YData & data)
+void YDataTable::setData(const int & rowIndex, const std::string & physicaName, const YDataType::YData & data)
 {
 	if(rowIndex < (int)this->_rows->size())
 	{

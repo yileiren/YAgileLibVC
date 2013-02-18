@@ -5,6 +5,7 @@
 #include "../../include/YDataType/YTextEncode.h"
 
 using namespace YLR;
+using namespace YDataType;
 
 void YTextEncode::freeText(std::string * text)
 {

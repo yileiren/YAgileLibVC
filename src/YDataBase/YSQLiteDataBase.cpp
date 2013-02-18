@@ -2,6 +2,7 @@
 #include "../../include/YDataType/YTextEncode.h"
 
 using namespace YLR;
+using namespace YDataBase;
 
 YSQLiteDataBase::YSQLiteDataBase() :
 	_databaseType(YDataInterface::SQLite),
@@ -178,28 +179,28 @@ const YDataTable * YSQLiteDataBase::executeSqlReturnDt(const std::string & sql)
 				{
 				case SQLITE_INTEGER:
 					{
-						row.setData(i,YData(sqlite3_column_int(stmt,i)));
+						row.setData(i,YDataType::YData(sqlite3_column_int(stmt,i)));
 						break;
 					}
 				case SQLITE_FLOAT:
 					{
-						row.setData(i,YData(sqlite3_column_double(stmt,i)));
+						row.setData(i,YDataType::YData(sqlite3_column_double(stmt,i)));
 						break;
 					}
 				case SQLITE_TEXT:
 					{
-						std::string * text = YLR::YTextEncode::utf8ToMultibyte(std::string((char *)sqlite3_column_text(stmt,i)));
+						std::string * text = YLR::YDataType::YTextEncode::utf8ToMultibyte(std::string((char *)sqlite3_column_text(stmt,i)));
 						if(text != NULL)
 						{
-							row.setData(i,YData(*text));
-							YLR::YTextEncode::freeText(text);
+							row.setData(i,YDataType::YData(*text));
+							YLR::YDataType::YTextEncode::freeText(text);
 						}
 						break;
 					}
 				case SQLITE_NULL:
 				default:
 					{
-						YData data;
+						YDataType::YData data;
 						data.setNull();
 						row.setData(i,data);
 						break;
@@ -218,11 +219,11 @@ bool YSQLiteDataBase::executeSqlWithOutDt(const std::string & sql)
 {
 	char *zErr;
 
-	std::string * utf8Sql = YTextEncode::multibyteToUtf8(sql);
+	std::string * utf8Sql = YDataType::YTextEncode::multibyteToUtf8(sql);
 	if(utf8Sql != NULL)
 	{
 		int rc = sqlite3_exec(this->_db,utf8Sql->c_str(),NULL,NULL,&zErr);
-		YTextEncode::freeText(utf8Sql);
+		YDataType::YTextEncode::freeText(utf8Sql);
 
 		if(rc != SQLITE_OK)
 		{

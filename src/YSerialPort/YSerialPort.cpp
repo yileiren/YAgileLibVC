@@ -1,6 +1,7 @@
 #include "..\..\include\YSerialPort\YSerialPort.h"
 
 using namespace YLR;
+using namespace YSerialInterface;
 
 YSerialPort::YSerialPort(void) : 
 	serialNum(1),

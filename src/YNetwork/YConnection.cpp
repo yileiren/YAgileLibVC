@@ -1,6 +1,7 @@
 #include "../../include/YNetwork/YConnection.h"
 
 using namespace YLR;
+using namespace YNetWork;
 
 YConnection::YConnection()
 {
@@ -50,7 +51,7 @@ int YConnection::getSndTimeOut(SOCKET s)
 		return rcvbuf;
 }
 
-bool YConnection::sendData(SOCKET s,const YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut)
+bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut)
 {
 	return false;
 }

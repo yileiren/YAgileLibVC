@@ -6,6 +6,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 数据库操作类库。
+ */
+namespace YDataBase
+{
 	/*!
 	 * \brief
 	 * SqlServer数据库访问类，用来连接SqlServer数据库。
@@ -253,6 +259,7 @@ namespace YLR
 
 		_ConnectionPtr *_connection; /*!< ado数据库连接对象。 */
 	};
+}
 }
 
 #endif

@@ -8,6 +8,12 @@
 
 namespace YLR
 {
+/*!
+ * \brief
+ * 封装一些常用的数据类型和数据类型的操作。
+ */
+namespace YDataType
+{
 	/*!
 	 * \brief
 	 * 自定义通用数据类型，用于常用数据类型数据的保存和相互转换。
@@ -230,6 +236,7 @@ namespace YLR
 
 		std::string * str; /*!< 返回的字符串 */
 	};
-};
+}
+}
 
 #endif
