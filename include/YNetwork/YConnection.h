@@ -1,7 +1,12 @@
 #ifndef Y_CONNECTION
 #define Y_CONNECTION
 
+#include <Winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+
 #include "../../YNetwork/YNetwork.h"
+
+#include "../YDataType/YByteType.h"
 
 namespace YLR
 {
@@ -46,6 +51,67 @@ namespace YLR
 		 * 作者：董帅 创建时间：2013-2-17 14:45:27
 		 */
 		YConnection();
+
+		/*!
+		 * \brief
+		 * 设置套接字接收超时时间。
+		 * 作者：董帅 创建时间：2013-2-18 13:07:40
+		 *
+		 * \param s 要设置的套接字。
+		 * \param t 超时时间，单位（毫秒）。
+		 *
+		 * \return 成功返回true，否则返回false。
+		 */
+		static bool setRcvTimeOut(SOCKET s,const int &t);
+
+		/*!
+		 * \brief
+		 * 获取套接字接收超时时间。
+		 * 作者：董帅 创建时间：2013-2-18 13:16:52
+		 *
+		 * \param s 要获取的套接字。
+		 *
+		 * \return 超时时间，单位（毫秒），失败返回-1。
+		 */
+		static int getRcvTimeOut(SOCKET s);
+
+		/*!
+		 * \brief
+		 * 设置发送超时时间。
+		 * 作者：董帅 创建时间：2013-2-18 14:33:37
+		 *
+		 * \param s 要设置的套接字。
+		 * \param t 超时时间，单位（毫秒）。
+		 *
+		 * \return 成功返回true，否则返回false。
+		 */
+		static bool setSndTimeOut(SOCKET s,const int &t);
+
+		/*!
+		 * \brief
+		 * 获取套接字发送超时时间。
+		 * 作者：董帅 创建时间：2013-2-18 14:45:46
+		 *
+		 * \param s 要获取的套接字。
+		 *
+		 * \return 超时时间，单位（毫秒），失败返回-1。
+		 */
+		static int getSndTimeOut(SOCKET s);
+
+		/*!
+		 * \brief
+		 * 发送数据。
+		 * 作者：董帅 创建时间：2013-2-18 14:56:57
+		 *
+		 * \param s 使用的套接字。
+		 * \param data 要发送的数据。
+		 * \param packageCount 每一次发送的数据长度（如果数据较长需要拆成若干个包发送，只需要设置每个包的长度即可），单位是字节。
+		 * \param sendTimeOut 每个包的发送超时时间。
+		 * \param rcvTimeOut 每个包的接收超时时间。
+		 *
+		 * \return 成功返回true，否则返回false。
+		 */
+		static bool sendData(SOCKET s,const YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
 	};
 }
 

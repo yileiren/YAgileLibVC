@@ -21,6 +21,8 @@
 
 #include "../include/YSystem/YMachineInfo.h"
 
+#include "../include/YNetwork/YConnection.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -111,7 +113,19 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	std::string *s = YLR::YMachineInfo::getCpuID();
-	AfxMessageBox(CString(s->c_str()));
-	YLR::YMachineInfo::freeText(s);
+	WORD wVersionRequested = MAKEWORD(1,1);
+	WSADATA wsaData;
+	int err = WSAStartup(wVersionRequested,&wsaData);
+
+	SOCKET s = socket(AF_INET,SOCK_STREAM,0);
+	if(YLR::YConnection::setRcvTimeOut(s,300))
+	{
+		int t = YLR::YConnection::getRcvTimeOut(s);
+
+		CString str;
+		str.Format(_T("%d"),t);
+		AfxMessageBox(str);
+	}
+	else
+		AfxMessageBox(_T("error"));
 }
