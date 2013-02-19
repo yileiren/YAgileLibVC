@@ -36,6 +36,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetwork", "YNetwork\YNetwo
 		{E618E23A-0E25-4CAF-AD87-19132ACCBC78} = {E618E23A-0E25-4CAF-AD87-19132ACCBC78}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetWorkTestClient", "YNetWorkTestClient\YNetWorkTestClient.vcxproj", "{149DE49D-5A07-4E27-8CD4-20D65A46B95C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetWorkTestServer", "YNetWorkTestServer\YNetWorkTestServer.vcxproj", "{2802D005-CC0F-419B-AFD9-969253E7B6DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -78,6 +82,14 @@ Global
 		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Debug|Win32.Build.0 = Debug|Win32
 		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Release|Win32.ActiveCfg = Release|Win32
 		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB}.Release|Win32.Build.0 = Release|Win32
+		{149DE49D-5A07-4E27-8CD4-20D65A46B95C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{149DE49D-5A07-4E27-8CD4-20D65A46B95C}.Debug|Win32.Build.0 = Debug|Win32
+		{149DE49D-5A07-4E27-8CD4-20D65A46B95C}.Release|Win32.ActiveCfg = Release|Win32
+		{149DE49D-5A07-4E27-8CD4-20D65A46B95C}.Release|Win32.Build.0 = Release|Win32
+		{2802D005-CC0F-419B-AFD9-969253E7B6DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2802D005-CC0F-419B-AFD9-969253E7B6DE}.Debug|Win32.Build.0 = Debug|Win32
+		{2802D005-CC0F-419B-AFD9-969253E7B6DE}.Release|Win32.ActiveCfg = Release|Win32
+		{2802D005-CC0F-419B-AFD9-969253E7B6DE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

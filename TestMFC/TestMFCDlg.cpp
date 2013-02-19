@@ -113,19 +113,24 @@ HCURSOR CTestMFCDlg::OnQueryDragIcon()
 
 void CTestMFCDlg::OnBnClickedOk()
 {
-	WORD wVersionRequested = MAKEWORD(1,1);
-	WSADATA wsaData;
-	int err = WSAStartup(wVersionRequested,&wsaData);
+	//WORD wVersionRequested = MAKEWORD(1,1);
+	//WSADATA wsaData;
+	//int err = WSAStartup(wVersionRequested,&wsaData);
 
-	SOCKET s = socket(AF_INET,SOCK_STREAM,0);
-	if(YLR::YNetWork::YConnection::setRcvTimeOut(s,300))
-	{
-		int t = YLR::YNetWork::YConnection::getRcvTimeOut(s);
+	//SOCKET s = socket(AF_INET,SOCK_STREAM,0);
+	//if(YLR::YNetWork::YConnection::setRcvTimeOut(s,300))
+	//{
+	//	int t = YLR::YNetWork::YConnection::getRcvTimeOut(s);
 
-		CString str;
-		str.Format(_T("%d"),t);
-		AfxMessageBox(str);
-	}
-	else
-		AfxMessageBox(_T("error"));
+	//	CString str;
+	//	str.Format(_T("%d"),t);
+	//	AfxMessageBox(str);
+	//}
+	//else
+	//	AfxMessageBox(_T("error"));
+
+	YLR::YDataType::YByteType * f = new YLR::YDataType::YByteType();
+	f->setSize(50);
+	f->setSize(100);
+	delete f;
 }

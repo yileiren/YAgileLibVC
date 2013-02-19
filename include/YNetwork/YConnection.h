@@ -43,10 +43,13 @@ namespace YNetWork
 	public:
 		enum StatusWord
 		{
+			EndFlag = 0x00,        /*!< 数据包结束位。 */
+
 			Yes = 0x01,            /*!< 请求成功。 */
 			No = 0x02,             /*!< 请求失败。 */
 			Go = 0x03,             /*!< 继续。 */
 			End = 0x04,            /*!< 结束。 */
+			Error = 0x05,          /*!< 出错。 */
 
 			Connect = 0x11,        /*!< 请求连接。 */
 			Disconnect = 0x12,     /*!< 请求断开连接。 */
@@ -73,7 +76,7 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		static bool setRcvTimeOut(SOCKET s,const int &t);
+		bool setRcvTimeOut(SOCKET s,const int &t);
 
 		/*!
 		 * \brief
@@ -84,7 +87,7 @@ namespace YNetWork
 		 *
 		 * \return 超时时间，单位（毫秒），失败返回-1。
 		 */
-		static int getRcvTimeOut(SOCKET s);
+		int getRcvTimeOut(SOCKET s);
 
 		/*!
 		 * \brief
@@ -96,7 +99,7 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		static bool setSndTimeOut(SOCKET s,const int &t);
+		bool setSndTimeOut(SOCKET s,const int &t);
 
 		/*!
 		 * \brief
@@ -107,7 +110,7 @@ namespace YNetWork
 		 *
 		 * \return 超时时间，单位（毫秒），失败返回-1。
 		 */
-		static int getSndTimeOut(SOCKET s);
+		int getSndTimeOut(SOCKET s);
 
 		/*!
 		 * \brief
@@ -122,7 +125,22 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		static bool sendData(SOCKET s,const YDataType::YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
+		bool sendData(SOCKET s,const YDataType::YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
+
+		/*!
+		 * \brief
+		 * 接收数据。
+		 * 作者：董帅 创建时间：2013-2-19 11:26:06
+		 *
+		 * \param s 使用的套接字。
+		 * \param data 接收到得数据。
+		 * \param bufLength 接收数据缓冲区大小。
+		 * \param sendTimeOut 每个包的发送超时时间。
+		 * \param rcvTimeOut 每个包的接收超时时间。
+		 *
+		 * \return 成功返回true，否则返回false。
+		 */
+		bool recaiveData(SOCKET s,YDataType::YByteType &data,const int &bufLength,const int &sndTimeOut,const int &rcvTimeOut);
 	};
 }
 }
