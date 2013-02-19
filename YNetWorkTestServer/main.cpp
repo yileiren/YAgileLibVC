@@ -64,7 +64,7 @@ void recvData()
 
 	YLR::YDataType::YByteType data;
 	YLR::YNetWork::YConnection con;
-	bool r = con.recaiveData(sockConn,data,50,1000,1000);
+	bool r = con.recaiveData(sockConn,data,50,10000,10000);
 	if(r)
 	{
 		YBYTE * text = new YBYTE(data.getSize());

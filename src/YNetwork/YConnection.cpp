@@ -79,7 +79,7 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 			if(YConnection::Yes == reqData[0])
 			{
 				//发送数据
-				YBYTE * buf = new YBYTE(packageLength + 14);
+				YBYTE * buf = new YBYTE[packageLength + 14];
 				buf[0] = YConnection::DataPackage;
 
 				//计算数据包总数
@@ -96,7 +96,7 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 				while(data.getSize() - sendLength > 0)
 				{
 					//初始化包中的数据部分
-					memset(buf + 14,0,packageLength);
+					memset(buf + 13,0,packageLength);
 
 					//当前数据包序号
 					unsigned int packageOrder = sendLength / packageLength + 1;
@@ -106,26 +106,26 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 					if(data.getSize() - sendLength >= (unsigned int)packageLength)
 					{
 						l = packageLength;
-						data.getData(buf,l,sendLength);
+						data.getData(buf + 13,l,sendLength);
 						sendLength += l;
 					}
 					else
 					{
 						l = data.getSize() - sendLength;
-						data.getData(buf,l,sendLength);
+						data.getData(buf + 13,l,sendLength);
 						sendLength += l;
 					}
 					//数据包中数据长度
-					memcpy(buf + 5,&packageOrder,4);
+					memcpy(buf + 9,&l,4);
 
-					r = send(s,(const char *)buf,l,0);
+					r = send(s,(const char *)buf,l + 14,0);
 
 					if(SOCKET_ERROR != r)
 					{
-						r = recv(s,(char *)buf,packageLength + 14,0);
+						r = recv(s,(char *)reqData,14,0);
 						if(SOCKET_ERROR != r)
 						{
-							if(YConnection::Go != buf[0])
+							if(YConnection::Go != reqData[0])
 							{
 								//对方不允许继续发送数据
 								retValue = false;
@@ -146,6 +146,8 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 						break;
 					}
 				}
+
+				delete[] buf;
 			}
 			else
 			{
@@ -221,7 +223,7 @@ bool YConnection::recaiveData(SOCKET s,YDataType::YByteType &data,const int &buf
 					{
 						if(YConnection::DataPackage == rcvBuf[0])
 						{
-							unsigned packageLength = 0; //数据包中数据长度
+							unsigned int packageLength = 0; //数据包中数据长度
 							memcpy(&packageLength,rcvBuf + 9,4);
 							if(packageLength > 0)
 							{

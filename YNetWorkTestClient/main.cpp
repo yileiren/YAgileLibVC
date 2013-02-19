@@ -11,7 +11,7 @@ void sendData()
 {
 	std::string ip;
 	int port;
-	std::cout<<"请输入服务器IP（默认是127.0.0.1）：";
+	std::cout<<"请输入服务器IP：";
 	std::cin>>ip;
 	if(ip == "")
 	{
@@ -50,7 +50,7 @@ void sendData()
 				YLR::YDataType::YByteType data((unsigned int)sendText.size() + 1,(const YBYTE *)sendText.c_str());
 
 				YLR::YNetWork::YConnection con;
-				bool r = con.sendData(sockClient,data,20,1000,1000);
+				bool r = con.sendData(sockClient,data,20,10000,10000);
 				if(r)
 				{
 					std::cout<<"发送数据成功！"<<std::endl;
