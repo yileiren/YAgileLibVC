@@ -63,7 +63,7 @@ void recvData()
 	SOCKET sockConn=accept(serverSocket,(SOCKADDR*)&addrClient,&len);
 
 	YLR::YDataType::YByteType data;
-	bool r = YLR::YNetWork::YConnection::recaiveData(sockConn,data,50,60000,60000);
+	bool r = YLR::YNetWork::YConnection::recaiveData(sockConn,data,50,1000,1000);
 	if(r)
 	{
 		YBYTE * text = new YBYTE[data.getSize()];
