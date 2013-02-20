@@ -76,7 +76,7 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		bool setRcvTimeOut(SOCKET s,const int &t);
+		static bool setRcvTimeOut(SOCKET s,const int &t);
 
 		/*!
 		 * \brief
@@ -87,7 +87,7 @@ namespace YNetWork
 		 *
 		 * \return 超时时间，单位（毫秒），失败返回-1。
 		 */
-		int getRcvTimeOut(SOCKET s);
+		static int getRcvTimeOut(SOCKET s);
 
 		/*!
 		 * \brief
@@ -99,7 +99,7 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		bool setSndTimeOut(SOCKET s,const int &t);
+		static bool setSndTimeOut(SOCKET s,const int &t);
 
 		/*!
 		 * \brief
@@ -110,7 +110,7 @@ namespace YNetWork
 		 *
 		 * \return 超时时间，单位（毫秒），失败返回-1。
 		 */
-		int getSndTimeOut(SOCKET s);
+		static int getSndTimeOut(SOCKET s);
 
 		/*!
 		 * \brief
@@ -125,7 +125,7 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		bool sendData(SOCKET s,const YDataType::YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
+		static bool sendData(SOCKET s,const YDataType::YByteType &data,const int &packageCount,const int &sndTimeOut,const int &rcvTimeOut);
 
 		/*!
 		 * \brief
@@ -140,7 +140,7 @@ namespace YNetWork
 		 *
 		 * \return 成功返回true，否则返回false。
 		 */
-		bool recaiveData(SOCKET s,YDataType::YByteType &data,const int &bufLength,const int &sndTimeOut,const int &rcvTimeOut);
+		static bool recaiveData(SOCKET s,YDataType::YByteType &data,const int &bufLength,const int &sndTimeOut,const int &rcvTimeOut);
 	};
 }
 }

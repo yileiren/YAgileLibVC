@@ -49,8 +49,7 @@ void sendData()
 
 				YLR::YDataType::YByteType data((unsigned int)sendText.size() + 1,(const YBYTE *)sendText.c_str());
 
-				YLR::YNetWork::YConnection con;
-				bool r = con.sendData(sockClient,data,20,60000,60000);
+				bool r = YLR::YNetWork::YConnection::sendData(sockClient,data,20,60000,60000);
 				if(r)
 				{
 					std::cout<<"发送数据成功！"<<std::endl;

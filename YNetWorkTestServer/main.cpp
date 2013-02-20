@@ -59,12 +59,11 @@ void recvData()
 	int len=sizeof(SOCKADDR);
 
 	//监听启动
-	std::cout<<"网络监听已开启！监听端口号："<<acceptPort<<"。"<<std::endl;
+	std::cout<<"网络监听已开启！监听端口号："<<acceptPort<<"，等待数据传输..."<<std::endl;
 	SOCKET sockConn=accept(serverSocket,(SOCKADDR*)&addrClient,&len);
 
 	YLR::YDataType::YByteType data;
-	YLR::YNetWork::YConnection con;
-	bool r = con.recaiveData(sockConn,data,50,60000,60000);
+	bool r = YLR::YNetWork::YConnection::recaiveData(sockConn,data,50,60000,60000);
 	if(r)
 	{
 		YBYTE * text = new YBYTE[data.getSize()];
