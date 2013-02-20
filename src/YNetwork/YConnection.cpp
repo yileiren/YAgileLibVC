@@ -228,13 +228,13 @@ bool YConnection::recaiveData(SOCKET s,YDataType::YByteType &data,const int &buf
 							if(packageLength > 0)
 							{
 								data.setSize(data.getSize() + packageLength);
-								data.setData(rcvBuf,packageLength,data.getSize() - packageLength);
+								data.setData(rcvBuf + 13,packageLength,data.getSize() - packageLength);
 							}
 
 							//继续接收数据
 							resData[0] = YConnection::Go;
 							r = send(s,(const char *)resData,14,0);
-							if(SOCKET_ERROR != r)
+							if(SOCKET_ERROR == r)
 							{
 								//继续发送数据响应失败
 								break;

@@ -64,14 +64,14 @@ void recvData()
 
 	YLR::YDataType::YByteType data;
 	YLR::YNetWork::YConnection con;
-	bool r = con.recaiveData(sockConn,data,50,10000,10000);
+	bool r = con.recaiveData(sockConn,data,50,60000,60000);
 	if(r)
 	{
-		YBYTE * text = new YBYTE(data.getSize());
+		YBYTE * text = new YBYTE[data.getSize()];
 		data.getData(text,data.getSize());
 
 		std::cout<<text<<std::endl;
-		delete text;
+		delete[] text;
 	}
 	else
 	{
