@@ -62,7 +62,7 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 	YBYTE reqData[14];
 	memset(reqData,0,14);
 	reqData[0] = YConnection::SendData;
-	unsigned int i = 1;
+	int i = 1;
 	memcpy(reqData + 1,&i,4);
 	memcpy(reqData + 5,&i,4);
 	i = 0;
@@ -83,7 +83,7 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 				buf[0] = YConnection::DataPackage;
 
 				//计算数据包总数
-				unsigned int packageCount = data.getSize() / packageLength;
+				int packageCount = data.getSize() / packageLength;
 				if(data.getSize() % packageLength > 0)
 				{
 					packageCount++;
@@ -99,10 +99,10 @@ bool YConnection::sendData(SOCKET s,const YDataType::YByteType &data,const int &
 					memset(buf + 13,0,packageLength);
 
 					//当前数据包序号
-					unsigned int packageOrder = sendLength / packageLength + 1;
+					int packageOrder = sendLength / packageLength + 1;
 					memcpy(buf + 5,&packageOrder,4);
 
-					unsigned int l = 0;
+					int l = 0;
 					if(data.getSize() - sendLength >= (unsigned int)packageLength)
 					{
 						l = packageLength;
@@ -202,7 +202,7 @@ bool YConnection::recaiveData(SOCKET s,YDataType::YByteType &data,const int &buf
 		{
 			YBYTE resData[14]; //响应数据
 			resData[0] = YConnection::Yes;
-			unsigned int i = 1;
+			int i = 1;
 			memcpy(resData + 1,&i,4);
 			memcpy(resData + 5,&i,4);
 			i = 0;
@@ -223,7 +223,7 @@ bool YConnection::recaiveData(SOCKET s,YDataType::YByteType &data,const int &buf
 					{
 						if(YConnection::DataPackage == rcvBuf[0])
 						{
-							unsigned int packageLength = 0; //数据包中数据长度
+							int packageLength = 0; //数据包中数据长度
 							memcpy(&packageLength,rcvBuf + 9,4);
 							if(packageLength > 0)
 							{
