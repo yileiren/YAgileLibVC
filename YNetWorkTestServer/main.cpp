@@ -174,7 +174,7 @@ int main()
 	{
 		int inputNum = 0; //输入的选择序号。
 		std::cout<<"YNetwork测试程序服务器端已启动，请选择您要进行的操作："<<std::endl;
-		std::cout<<"1：数据接收。"<<std::endl;
+		std::cout<<"1：数据接收（GBK格式）。"<<std::endl;
 		std::cout<<"2：数据接收（Utf-8格式）。"<<std::endl;
 		std::cout<<"0：退出程序。"<<std::endl;
 		std::cout<<"请输入您的选择：";
