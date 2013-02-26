@@ -8,6 +8,8 @@
 
 #include "../YDataType/YByteType.h"
 
+typedef void (*AcceptFunction)(SOCKET s); /*!< 网络监听处理套接字使用的函数。 */
+
 /*!
  * \brief
  * 异类人VC敏捷开发库。
@@ -41,6 +43,10 @@ namespace YNetWork
 	class YNETWORK_API YConnection
 	{
 	public:
+		/*!
+		 * \brief
+		 * 数据包状态字。
+		 */
 		enum StatusWord
 		{
 			EndFlag = 0x00,        /*!< 数据包结束位。 */
@@ -50,9 +56,6 @@ namespace YNetWork
 			Go = 0x03,             /*!< 继续。 */
 			End = 0x04,            /*!< 结束。 */
 			Error = 0x05,          /*!< 出错。 */
-
-			Connect = 0x11,        /*!< 请求连接。 */
-			Disconnect = 0x12,     /*!< 请求断开连接。 */
 
 			SendData = 0x21,       /*!< 请求发送数据。 */
 
@@ -65,6 +68,36 @@ namespace YNetWork
 		 * 作者：董帅 创建时间：2013-2-17 14:45:27
 		 */
 		YConnection();
+
+		/*!
+		 * \brief
+		 * 开启网络监听。
+		 * 作者：董帅 创建时间：2013-2-26 11:21:53
+		 *
+		 * \param port 监听端口号。
+		 * \param f 接收到监听后处理套接字使用的函数。
+		 * \param connectCount 监听最大连接数，默认值是50。
+		 * \param mode 监听模式，为true时是阻塞模式，为false是非阻塞模式，默认是true。
+		 */
+		void startAccept(const int &port,AcceptFunction f,const int &connectCount = 50,const bool &mode = true);
+
+		/*!
+		 * \brief
+		 * 停止监听。
+		 * 作者：董帅 创建时间：2013-2-26 15:31:34
+		 *
+		 * \return 成功返回true，否则返回false。
+		 */
+		bool stopAccept();
+
+		/*!
+		 * \brief
+		 * 监听是否已经启动。
+		 * 作者:董帅 创建时间：2013-2-26 15:55:21
+		 *
+		 * \return 启动返回true，否则返回false。
+		 */
+		bool isStarted();
 
 		/*!
 		 * \brief
@@ -141,6 +174,15 @@ namespace YNetWork
 		 * \return 成功返回true，否则返回false。
 		 */
 		static bool recaiveData(SOCKET s,YDataType::YByteType &data,const int &bufLength,const int &sndTimeOut,const int &rcvTimeOut);
+
+	protected:
+		bool _isAccept; /*!< 监听是否启动。 */
+		HANDLE _isAcceptMutex; /*!< _isAccept互斥锁对象。 */
+
+		bool _acceptIsOut; /*!< 监听是否退出。 */
+		HANDLE _acceptIsOutMutex; /*!< _acceptIsOut互斥锁对象。 */
+
+		SOCKET _serverSocket; /*!< 服务器监听套接字。 */
 	};
 }
 }

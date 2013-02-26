@@ -3,8 +3,138 @@
 using namespace YLR;
 using namespace YNetWork;
 
-YConnection::YConnection()
+YConnection::YConnection() :
+	_isAccept(false),
+	_isAcceptMutex(CreateMutex(NULL,FALSE,NULL)),
+	_acceptIsOut(true),
+	_acceptIsOutMutex(CreateMutex(NULL,FALSE,NULL)),
+	_serverSocket(NULL)
 {
+}
+
+void YConnection::startAccept(const int &port,AcceptFunction f,const int &connectCount,const bool &mode)
+{
+	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_isAcceptMutex,INFINITE)
+		&& WAIT_OBJECT_0 == WaitForSingleObject(this->_acceptIsOutMutex,INFINITE))
+	{
+		this->_acceptIsOut = false; //监听函数正在没有退出
+		//初始化套接字
+		WORD wVersionRequested = MAKEWORD(1,1);
+		WSADATA wsaData;
+		int err = WSAStartup(wVersionRequested,&wsaData);
+		if ( err != 0 ) 
+		{
+			WSACleanup();
+			return;
+		}
+
+		//创建套接字
+		this->_serverSocket = socket(AF_INET,SOCK_STREAM,0);
+		if(INVALID_SOCKET == this->_serverSocket)
+		{
+			WSACleanup();
+			return;
+		}
+
+		//绑定端口
+		SOCKADDR_IN addrSrv;
+		addrSrv.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+		addrSrv.sin_family = AF_INET;
+		addrSrv.sin_port = htons(port);
+
+		err = bind(this->_serverSocket,(SOCKADDR*)&addrSrv,sizeof(SOCKADDR));
+		if(SOCKET_ERROR == err)
+		{
+			WSACleanup();
+			return;
+		}
+
+		//设置连接数
+		err = listen(this->_serverSocket,connectCount);
+		if(SOCKET_ERROR == err)
+		{
+			WSACleanup();
+			return;
+		}
+
+		SOCKADDR_IN addrClient;//和客户端连接的发送套接字
+		int len = sizeof(SOCKADDR);
+
+		//设置监听模式
+		u_long iMode = 1;
+		if(mode)
+		{
+			iMode = 0;
+		}
+		ioctlsocket(this->_serverSocket, FIONBIO,&iMode);
+		
+		//监听启动
+		this->_isAccept = true;
+		ReleaseMutex(this->_isAcceptMutex);
+		ReleaseMutex(this->_acceptIsOutMutex);
+
+		while(this->_isAccept)
+		{
+			SOCKET sockConn = accept(this->_serverSocket,(SOCKADDR*)&addrClient,&len);
+
+			if(INVALID_SOCKET != sockConn)
+			{
+				(*f)(sockConn);
+			}
+		}
+
+		if(WAIT_OBJECT_0 == WaitForSingleObject(this->_acceptIsOutMutex,INFINITE))
+		{
+			this->_acceptIsOut = true; //监听函数已经退出。
+		}
+	}
+}
+
+bool YConnection::stopAccept()
+{
+	bool retValue = false;
+
+	//设置停止标记
+	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_isAcceptMutex,INFINITE))
+	{
+		this->_isAccept = false;
+		closesocket(this->_serverSocket);//关闭连接
+		WSACleanup();
+		ReleaseMutex(this->_isAcceptMutex);
+	}
+	
+	//判断程序是否退出。
+	int iCount = 0; //循环等待计数。
+	while(true)
+	{
+		if(WAIT_OBJECT_0 == WaitForSingleObject(this->_acceptIsOutMutex,100))
+		{
+			if(this->_acceptIsOut)
+			{
+				retValue = true;
+				break;
+			}
+			iCount++;
+			if(iCount > 600)
+			{
+				break;
+			}
+			ReleaseMutex(this->_acceptIsOutMutex);
+		}
+	}
+
+	return retValue;
+}
+
+bool YConnection::isStarted()
+{
+	bool retValue = false;
+	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_isAcceptMutex,INFINITE))
+	{
+		retValue = this->_isAccept;
+		ReleaseMutex(this->_isAcceptMutex);
+	}
+	return retValue;
 }
 
 inline bool YConnection::setRcvTimeOut(SOCKET s,const int &t)

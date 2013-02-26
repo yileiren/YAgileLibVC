@@ -176,6 +176,7 @@ int main()
 		std::cout<<"YNetwork测试程序服务器端已启动，请选择您要进行的操作："<<std::endl;
 		std::cout<<"1：数据接收（GBK格式）。"<<std::endl;
 		std::cout<<"2：数据接收（Utf-8格式）。"<<std::endl;
+		std::cout<<"3：测试服务器监听方法。"<<std::endl;
 		std::cout<<"0：退出程序。"<<std::endl;
 		std::cout<<"请输入您的选择：";
 		std::cin>>inputNum;
@@ -192,6 +193,10 @@ int main()
 		else if(2 == inputNum)
 		{
 			recvUtf8Text();
+		}
+		else if(3 == inputNum)
+		{
+			testAccept();
 		}
 		else
 		{
