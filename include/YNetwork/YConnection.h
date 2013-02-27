@@ -64,6 +64,30 @@ namespace YNetWork
 
 		/*!
 		 * \brief
+		 * 监听线程参数结构。
+		 * 作者：董帅 创建时间：2013-2-27 11:18:55
+		 */
+		struct AcceptThreadParameters
+		{
+			int port; /*!< 监听端口号。 */
+			bool mode; /*!< 监听模式。 */
+			int connectCount; /*!< 监听最大连接数。 */
+			AcceptFunction f; /*!< 监听中的连接处理函数。 */
+			
+			HANDLE startEvent; /*!< 监听开始事件。 */
+			bool startSucceed; /*!< 监听启动成功。 */
+
+			HANDLE stopEvent; /*!< 监听停止事件。 */
+			bool stopSucced; /*!< 停止成功。 */
+
+			SOCKET serverSocket; /*!< 服务器监听套接字。 */
+
+			bool isAccept; /*!< 监听是否启动。 */
+			HANDLE isAcceptMutex; /*!< _isAccept互斥锁对象。 */
+		};
+
+		/*!
+		 * \brief
 		 * 默认构造函数。
 		 * 作者：董帅 创建时间：2013-2-17 14:45:27
 		 */
@@ -78,8 +102,10 @@ namespace YNetWork
 		 * \param f 接收到监听后处理套接字使用的函数。
 		 * \param connectCount 监听最大连接数，默认值是50。
 		 * \param mode 监听模式，为true时是阻塞模式，为false是非阻塞模式，默认是true。
+		 *
+		 * \return 成功返回true，否则返回false。
 		 */
-		void startAccept(const int &port,AcceptFunction f,const int &connectCount = 50,const bool &mode = true);
+		bool startAccept(const int &port,AcceptFunction f,const int &connectCount = 50,const bool &mode = true);
 
 		/*!
 		 * \brief
@@ -99,6 +125,42 @@ namespace YNetWork
 		 */
 		bool isStarted();
 
+		/*!
+		 * \brief
+		 * 获取监听端口。
+		 * 作者：董帅 创建时间：2013-2-27 9:47:25
+		 *
+		 * \return 监听端口。
+		 */
+		int getAcceptPort() const;
+
+		/*!
+		 * \brief
+		 * 获取监听模式。
+		 * 作者：董帅 创建时间：2013-2-27 10:51:54
+		 *
+		 * \return 阻塞模式返回true，否则返回false。
+		 */
+		bool getAcceptMode() const;
+
+		/*!
+		 * \brief
+		 * 获取监听最大连接数。
+		 * 作者：董帅 创建时间：2013-2-27 10:54:03
+		 *
+		 * \return 监听最大连接数。
+		 */
+		int getAcceptConnectCount() const;
+		
+		/*!
+		 * \brief
+		 * 获取连接处理函数。
+		 * 作者：董帅 创建时间：2013-2-27 10:56:16
+		 *
+		 * \return 监听处理函数。
+		 */
+		AcceptFunction getAcceptFunction() const;
+		
 		/*!
 		 * \brief
 		 * 设置套接字接收超时时间。
@@ -176,13 +238,12 @@ namespace YNetWork
 		static bool recaiveData(SOCKET s,YDataType::YByteType &data,const int &bufLength,const int &sndTimeOut,const int &rcvTimeOut);
 
 	protected:
-		bool _isAccept; /*!< 监听是否启动。 */
-		HANDLE _isAcceptMutex; /*!< _isAccept互斥锁对象。 */
+		
 
 		bool _acceptIsOut; /*!< 监听是否退出。 */
 		HANDLE _acceptIsOutMutex; /*!< _acceptIsOut互斥锁对象。 */
 
-		SOCKET _serverSocket; /*!< 服务器监听套接字。 */
+		AcceptThreadParameters _param; /*!< 监听线程参数。 */
 	};
 }
 }

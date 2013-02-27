@@ -167,6 +167,61 @@ void recvUtf8Text()
     WSACleanup();
 }
 
+void testAcceptFunction(SOCKET s)
+{
+	YLR::YDataType::YByteType data;
+	bool r = YLR::YNetWork::YConnection::recaiveData(s,data,50,1000,1000);
+	
+	if(r)
+	{
+		YBYTE * text = new YBYTE[data.getSize()];
+		data.getData(text,data.getSize());
+
+		std::cout<<text<<std::endl;
+		delete[] text;
+	}
+
+	closesocket(s);
+}
+
+void testAccept()
+{
+	YLR::YNetWork::YConnection conn;
+
+	int acceptPort = 0;
+	std::cout<<"请输入监听端口号:";
+	std::cin>>acceptPort;
+
+	if(conn.startAccept(acceptPort,testAcceptFunction))
+	{
+		std::cout<<"服务器监听已成功启动！"<<std::endl;
+		
+		while(true)
+		{
+			std::cout<<"输入“0”停止服务：";
+			int inputNum = 2;
+			std::cin>>inputNum;
+			if(inputNum == 0)
+			{
+				if(conn.stopAccept())
+				{
+					std::cout<<"监听服务已停止！"<<std::endl;
+					break;
+				}
+				else
+				{
+					std::cout<<"监听服务停止失败！"<<std::endl;
+				}
+			}
+		}
+		
+	}
+	else
+	{
+		std::cout<<"启动监听服务失败！"<<std::endl;
+	}
+}
+
 int main()
 {
 	YLR::YDataType::YByteType b;

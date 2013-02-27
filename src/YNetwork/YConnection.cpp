@@ -3,124 +3,87 @@
 using namespace YLR;
 using namespace YNetWork;
 
+DWORD WINAPI  acceptThreadFun(LPVOID c); //声明线程处理函数。
+
 YConnection::YConnection() :
-	_isAccept(false),
-	_isAcceptMutex(CreateMutex(NULL,FALSE,NULL)),
 	_acceptIsOut(true),
-	_acceptIsOutMutex(CreateMutex(NULL,FALSE,NULL)),
-	_serverSocket(NULL)
+	_acceptIsOutMutex(CreateMutex(NULL,FALSE,NULL))
 {
+	this->_param.port = 0;
+	this->_param.mode = true;
+	this->_param.connectCount = 50;
+	this->_param.f = NULL;
+	this->_param.startEvent = CreateEvent(NULL,TRUE,FALSE,NULL);
+	this->_param.stopEvent = CreateEvent(NULL,TRUE,FALSE,NULL);
+	this->_param.isAccept = false;
+	this->_param.isAcceptMutex = CreateMutex(NULL,FALSE,NULL);
 }
 
-void YConnection::startAccept(const int &port,AcceptFunction f,const int &connectCount,const bool &mode)
+bool YConnection::startAccept(const int &port,AcceptFunction f,const int &connectCount,const bool &mode)
 {
-	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_isAcceptMutex,INFINITE)
-		&& WAIT_OBJECT_0 == WaitForSingleObject(this->_acceptIsOutMutex,INFINITE))
+	bool retValue = false;
+	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_param.isAcceptMutex,INFINITE))
 	{
-		this->_acceptIsOut = false; //监听函数正在没有退出
-		//初始化套接字
-		WORD wVersionRequested = MAKEWORD(1,1);
-		WSADATA wsaData;
-		int err = WSAStartup(wVersionRequested,&wsaData);
-		if ( err != 0 ) 
+		//如果正在运行返回false。
+		if(!this->_param.isAccept)
 		{
-			WSACleanup();
-			return;
-		}
+			this->_param.isAccept = true;//设置启动标识
 
-		//创建套接字
-		this->_serverSocket = socket(AF_INET,SOCK_STREAM,0);
-		if(INVALID_SOCKET == this->_serverSocket)
-		{
-			WSACleanup();
-			return;
-		}
+			//设置参数
+			this->_param.port = port;
+			this->_param.f = f;
+			this->_param.connectCount = connectCount;
+			this->_param.mode = mode;
 
-		//绑定端口
-		SOCKADDR_IN addrSrv;
-		addrSrv.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
-		addrSrv.sin_family = AF_INET;
-		addrSrv.sin_port = htons(port);
-
-		err = bind(this->_serverSocket,(SOCKADDR*)&addrSrv,sizeof(SOCKADDR));
-		if(SOCKET_ERROR == err)
-		{
-			WSACleanup();
-			return;
-		}
-
-		//设置连接数
-		err = listen(this->_serverSocket,connectCount);
-		if(SOCKET_ERROR == err)
-		{
-			WSACleanup();
-			return;
-		}
-
-		SOCKADDR_IN addrClient;//和客户端连接的发送套接字
-		int len = sizeof(SOCKADDR);
-
-		//设置监听模式
-		u_long iMode = 1;
-		if(mode)
-		{
-			iMode = 0;
-		}
-		ioctlsocket(this->_serverSocket, FIONBIO,&iMode);
-		
-		//监听启动
-		this->_isAccept = true;
-		ReleaseMutex(this->_isAcceptMutex);
-		ReleaseMutex(this->_acceptIsOutMutex);
-
-		while(this->_isAccept)
-		{
-			SOCKET sockConn = accept(this->_serverSocket,(SOCKADDR*)&addrClient,&len);
-
-			if(INVALID_SOCKET != sockConn)
+			//创建线程
+			this->_param.startSucceed = false;
+			ResetEvent(this->_param.startEvent);
+			DWORD _threadId; /*!< 监听线程id。 */
+			HANDLE t = CreateThread(NULL,0,acceptThreadFun,&this->_param,0,&_threadId);
+			if(t != NULL && WAIT_OBJECT_0 == WaitForSingleObject(this->_param.startEvent,INFINITE))
 			{
-				(*f)(sockConn);
+				if(this->_param.startSucceed)
+				{
+					retValue = true;
+				}
 			}
 		}
 
-		if(WAIT_OBJECT_0 == WaitForSingleObject(this->_acceptIsOutMutex,INFINITE))
-		{
-			this->_acceptIsOut = true; //监听函数已经退出。
-		}
+		ReleaseMutex(this->_param.isAcceptMutex);	
 	}
+
+	return retValue;
 }
 
 bool YConnection::stopAccept()
 {
 	bool retValue = false;
 
-	//设置停止标记
-	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_isAcceptMutex,INFINITE))
+	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_param.isAcceptMutex,INFINITE))
 	{
-		this->_isAccept = false;
-		closesocket(this->_serverSocket);//关闭连接
-		WSACleanup();
-		ReleaseMutex(this->_isAcceptMutex);
-	}
-	
-	//判断程序是否退出。
-	int iCount = 0; //循环等待计数。
-	while(true)
-	{
-		if(WAIT_OBJECT_0 == WaitForSingleObject(this->_acceptIsOutMutex,100))
+		if(this->_param.isAccept)
 		{
-			if(this->_acceptIsOut)
+			this->_param.stopSucced = false;
+			//设置停止标识
+			this->_param.isAccept = false;
+			//关闭监听套接字
+			closesocket(this->_param.serverSocket);
+
+			if(WAIT_OBJECT_0 == WaitForSingleObject(this->_param.startEvent,60000))
 			{
-				retValue = true;
-				break;
+				if(this->_param.stopSucced)
+				{
+					retValue = true;
+				}
 			}
-			iCount++;
-			if(iCount > 600)
-			{
-				break;
-			}
-			ReleaseMutex(this->_acceptIsOutMutex);
 		}
+		else
+		{
+			//监听没有启动
+			retValue = true;
+		}
+
+		ReleaseMutex(this->_param.isAcceptMutex);
 	}
 
 	return retValue;
@@ -129,12 +92,32 @@ bool YConnection::stopAccept()
 bool YConnection::isStarted()
 {
 	bool retValue = false;
-	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_isAcceptMutex,INFINITE))
+	if(WAIT_OBJECT_0 == WaitForSingleObject(this->_param.isAcceptMutex,INFINITE))
 	{
-		retValue = this->_isAccept;
-		ReleaseMutex(this->_isAcceptMutex);
+		retValue = this->_param.isAccept;
+		ReleaseMutex(this->_param.isAcceptMutex);
 	}
 	return retValue;
+}
+
+int YConnection::getAcceptPort() const
+{
+	return this->_param.port;
+}
+
+bool YConnection::getAcceptMode() const
+{
+	return this->_param.mode;
+}
+
+int YConnection::getAcceptConnectCount() const
+{
+	return this->_param.connectCount;
+}
+
+AcceptFunction YConnection::getAcceptFunction() const
+{
+	return this->_param.f;
 }
 
 inline bool YConnection::setRcvTimeOut(SOCKET s,const int &t)
@@ -396,4 +379,89 @@ bool YConnection::recaiveData(SOCKET s,YDataType::YByteType &data,const int &buf
 
 	delete[] rcvBuf;
 	return retValue;
+}
+
+/*!
+ * \brief
+ * 监听线程处理函数。
+ * 作者：董帅 创建时间：2013-2-27 9:44:12
+ *
+ * \param c 传入的YConnection对象。
+ */
+DWORD WINAPI  acceptThreadFun(LPVOID c)
+{
+	YConnection::AcceptThreadParameters * params = (YConnection::AcceptThreadParameters *)c;
+	//初始化套接字
+	WORD wVersionRequested = MAKEWORD(1,1);
+	WSADATA wsaData;
+	int err = WSAStartup(wVersionRequested,&wsaData);
+	if ( err != 0 ) 
+	{
+		WSACleanup();
+		SetEvent(params->startEvent);
+		return -1;
+	}
+
+	//创建套接字
+	params->serverSocket = socket(AF_INET,SOCK_STREAM,0);
+	if(INVALID_SOCKET == params->serverSocket)
+	{
+		WSACleanup();
+		SetEvent(params->startEvent);
+		return -1;
+	}
+
+	//绑定端口
+	SOCKADDR_IN addrSrv;
+	addrSrv.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(params->port);
+
+	err = bind(params->serverSocket,(SOCKADDR*)&addrSrv,sizeof(SOCKADDR));
+	if(SOCKET_ERROR == err)
+	{
+		WSACleanup();
+		SetEvent(params->startEvent);
+		return -1;
+	}
+
+	//设置连接数
+	err = listen(params->serverSocket,params->connectCount);
+	if(SOCKET_ERROR == err)
+	{
+		WSACleanup();
+		SetEvent(params->startEvent);
+		return -1;
+	}
+
+	SOCKADDR_IN addrClient;//和客户端连接的发送套接字
+	int len = sizeof(SOCKADDR);
+
+	//设置监听模式
+	u_long iMode = 1;
+	if(params->mode)
+	{
+		iMode = 0;
+	}
+	ioctlsocket(params->serverSocket, FIONBIO,&iMode);
+	
+	params->startSucceed = true;
+	SetEvent(params->startEvent);
+	//监听启动
+	while(params->isAccept)
+	{
+		SOCKET sockConn = accept(params->serverSocket,(SOCKADDR*)&addrClient,&len);
+
+		if(INVALID_SOCKET != sockConn)
+		{
+			if(params->f != NULL)
+			{
+				(*params->f)(sockConn);
+			}
+		}
+	}
+
+	params->stopSucced = true;
+	WSACleanup();
+	return 0;
 }
