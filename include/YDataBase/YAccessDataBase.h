@@ -16,6 +16,11 @@ namespace YLR
  */
 namespace YDataBase
 {
+	/*!
+	 * \brief
+	 * Access数据库访问类。
+	 * 作者：董帅 创建时间：2013-2-27 14:28:28
+	 */
 	class YDATABASE_API YAccessDataBase : public YDataInterface
 	{
 	public:

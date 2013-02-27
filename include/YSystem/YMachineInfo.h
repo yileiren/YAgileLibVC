@@ -13,6 +13,11 @@ namespace YLR
  */
 namespace YSystem
 {
+	/*!
+	 * \brief
+	 * 机器信息获取库。
+	 * 作者：董帅 创建时间：2013-2-27 14:29:35
+	 */
 	class YSYSTEM_API YMachineInfo
 	{
 	public:
