@@ -37,8 +37,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetwork", "YNetwork\YNetwo
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetWorkTestClient", "YNetWorkTestClient\YNetWorkTestClient.vcxproj", "{149DE49D-5A07-4E27-8CD4-20D65A46B95C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB} = {0C59A2F0-276F-483A-8294-0B3E19F3ACCB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YNetWorkTestServer", "YNetWorkTestServer\YNetWorkTestServer.vcxproj", "{2802D005-CC0F-419B-AFD9-969253E7B6DE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E618E23A-0E25-4CAF-AD87-19132ACCBC78} = {E618E23A-0E25-4CAF-AD87-19132ACCBC78}
+		{0C59A2F0-276F-483A-8294-0B3E19F3ACCB} = {0C59A2F0-276F-483A-8294-0B3E19F3ACCB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
