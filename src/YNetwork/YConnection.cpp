@@ -63,13 +63,14 @@ bool YConnection::stopAccept()
 	{
 		if(this->_param.isAccept)
 		{
+			ResetEvent(this->_param.stopEvent);
 			this->_param.stopSucced = false;
 			//ÉèÖÃÍ£Ö¹±êÊ¶
 			this->_param.isAccept = false;
 			//¹Ø±Õ¼àÌýÌ×½Ó×Ö
 			closesocket(this->_param.serverSocket);
 
-			if(WAIT_OBJECT_0 == WaitForSingleObject(this->_param.startEvent,60000))
+			if(WAIT_OBJECT_0 == WaitForSingleObject(this->_param.stopEvent,60000))
 			{
 				if(this->_param.stopSucced)
 				{
@@ -462,6 +463,7 @@ DWORD WINAPI  acceptThreadFun(LPVOID c)
 	}
 
 	params->stopSucced = true;
+	SetEvent(params->stopEvent);
 	WSACleanup();
 	return 0;
 }
